@@ -3,7 +3,7 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
-This will be implemented on cloud based infrastructure. Maybe multi-cloud bu for now mostly in [GCP](https://cloud.google.com/products).
+This will be implemented on cloud based infrastructure. Maybe multi-cloud but for now mostly in [GCP](https://cloud.google.com/products).
 
 ### Stake Pool
 https://developers.cardano.org/docs/operate-a-stake-pool/
