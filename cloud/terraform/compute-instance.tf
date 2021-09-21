@@ -32,6 +32,6 @@ resource "google_compute_firewall" "http-server" {
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server", "https-server"]
 }
-output "ip" {
+output "vm1-ip" {
   value = google_compute_instance_from_machine_image.from-pre-loaded-image.network_interface.0.access_config.0.nat_ip
 }
