@@ -25,6 +25,6 @@ resource "google_compute_machine_image" "image" {
   source_instance = google_compute_instance.vm.self_link
 }
 
-output "ip" {
+output "vm2-ip" {
   value = google_compute_instance.vm.network_interface.0.access_config.0.nat_ip
 }
