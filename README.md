@@ -33,5 +33,5 @@ https://yoroi-wallet.com/#/
 https://daedaluswallet.io/
 
 # DIY or Try it yourself
-Be able to try running Cardano node (StakePool) from ZERO  
+Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)
 [here](INSTRUCTIONS.md)
