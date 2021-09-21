@@ -18,7 +18,7 @@ https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stake
 https://medium.com/cardanorss/a-guide-to-becoming-a-stake-pool-operator-36a28c00c9e0
 https://developers.cardano.org/docs/stake-pool-course/
 
-- More references
+- More references  
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
 https://github.com/dodopontocom/terraform-gcp-lab/blob/develop/.circleci/cicd-definitions.sh
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_from_machine_image
