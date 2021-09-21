@@ -32,6 +32,6 @@ https://cardano.org/what-is-ada/
 https://yoroi-wallet.com/#/
 https://daedaluswallet.io/
 
-### DIY or Try it yourself
+# DIY or Try it yourself
 Be able to try running Cardano node (StakePool) from ZERO  
 [here](INSTRUCTIONS.md)
