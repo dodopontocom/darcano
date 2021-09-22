@@ -58,7 +58,7 @@ jobs:
     - name: Create Dev
       if: "contains( env.commit_msg, '[terraform-plan]')"
       run: |
-          ls -lrt cloud/credentials/credential.json
+          ls -lrt cloud/credentials/
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
           cat cloud/credentials/credential.json
           cd cloud/terraform
