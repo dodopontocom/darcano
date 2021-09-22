@@ -31,21 +31,7 @@ jobs:
         
     - name: Setup GCP
       run: |
-        echo "Checking TF state bucket: ${GCLOUD_PROJECT_REGION}"
-        gsutil --version
-        set +e
-        gsutil ls gs://${GCLOUD_APP_BUCKET_NAME}
-        exit_code=$?
-        set -e
-        echo "exit_code: ${exit_code}"
-        if [[ "${exit_code}" -eq "0" ]]; then
-          hasBucket=true
-          echo "ok ${hasBucket}"
-        else
-          gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
-          hasBucket=true
-          echo "else ${hasBucket}"
-        fi       
+        gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
         
   terraform:
     name: Terraform
