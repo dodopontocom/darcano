@@ -31,6 +31,8 @@ jobs:
         
     - name: Setup GCP
       run: |
+        echo ${PWD}
+        pwd
         gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
         
   terraform:
@@ -57,7 +59,8 @@ jobs:
     - name: Create Dev
       if: "contains( env.commit_msg, '[terraform-plan]')"
       run: |
-          terraform init
+          terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
+          terraform plan
           
     - name: Shutdown Dev Box
       if: "contains( env.commit_msg, '[terraform-destroy]')"
