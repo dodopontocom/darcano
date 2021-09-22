@@ -31,7 +31,6 @@ jobs:
         
     - name: Setup GCP
       run: |
-        export
         #TODO: check if bucket already exists: https://docs.github.com/en/actions/learn-github-actions/environment-variables
         #gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
         
@@ -59,7 +58,9 @@ jobs:
     - name: Create Dev
       if: "contains( env.commit_msg, '[terraform-plan]')"
       run: |
+          ls -lrt cloud/credentials/credential.json
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
+          cat cloud/credentials/credential.json
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform plan
