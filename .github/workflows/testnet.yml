@@ -58,6 +58,7 @@ jobs:
     - name: Create Dev
       if: "contains( env.commit_msg, '[terraform-plan]')"
       run: |
+          export
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform plan
