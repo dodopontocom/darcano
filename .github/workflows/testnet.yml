@@ -34,7 +34,9 @@ jobs:
         echo "Checking TF state bucket: ${GCLOUD_PROJECT_REGION}"
         gsutil --version
         gsutil ls gs://${GCLOUD_APP_BUCKET_NAME}
-        if [[ "$?" -eq "0" ]]; then
+        exit_code=$?
+        echo "exit_code: ${exit_code}"
+        if [[ "${exit_code}" -eq "0" ]]; then
           hasBucket=true
           echo "ok ${hasBucket}"
         else
