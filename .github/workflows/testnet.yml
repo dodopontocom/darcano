@@ -7,7 +7,9 @@ on:
 
 env:
   PROJECT_ID: theta-inkwell-326216
-  GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
+  GCLOUD_TF_BUCKET_NAME: terraform-state
+  GCLOUD_PROJECT_REGION: us-central1
+  GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}  
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -29,8 +31,13 @@ jobs:
         
     - name: Setup GCP
       run: |
-        gcloud --version
-        terraform --version
+        gsutil ls gs://${GCLOUD_APP_BUCKET_NAME}
+        if [[ "$?" -eq "0" ]]; then
+          hasBucket=true
+        else
+          gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
+          hasBucket=true
+        fi       
         
   terraform:
     name: Terraform
@@ -67,4 +74,25 @@ jobs:
       if: "! contains( env.commit_msg, '[terraform-apply]') && !contains( env.commit_msg, '[terraform-destroy]')"
       run: |
           echo "No terraform flag was detected to run functionalities..."
+    
+  verification:
+    name: Verification
+    needs: setup
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
+        project_id: ${{ env.PROJECT_ID }}
+        export_default_credentials: true
+
+    - name: get commit message
+      run: |
+        echo "---> ${commit_msg}"
 
