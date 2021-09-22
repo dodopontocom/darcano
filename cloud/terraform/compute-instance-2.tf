@@ -10,7 +10,7 @@ resource "google_compute_instance" "vm" {
     }
   }
 
-  metadata_startup_script = "echo hi > /test.txt"
+  metadata_startup_script = "echo hi > /test.txt; sleep 500"
 
   network_interface {
     network = "default"
