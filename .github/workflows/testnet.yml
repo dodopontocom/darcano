@@ -33,7 +33,7 @@ jobs:
       run: |
         echo ${PWD}
         pwd
-        gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
+        #gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
         
   terraform:
     name: Terraform
