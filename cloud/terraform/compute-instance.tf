@@ -1,7 +1,8 @@
 variable "node_count" {
   default = "2"
- }
- resource "google_compute_instance_from_machine_image" "from-pre-loaded-image" {
+}
+
+resource "google_compute_instance_from_machine_image" "from-pre-loaded-image" {
   provider     = google-beta
   count        = "${var.node_count}"
   name         = "tf-vm-${count.index}-${random_id.random_id.hex}"
