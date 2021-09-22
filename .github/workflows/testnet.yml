@@ -32,12 +32,12 @@ jobs:
     - name: Setup GCP
       run: |
         echo "Checking TF state bucket"
-        gsutil ls gs://${GCLOUD_APP_BUCKET_NAME}
+        gsutil ls gs://${env.GCLOUD_APP_BUCKET_NAME}
         if [[ "$?" -eq "0" ]]; then
           hasBucket=true
           echo ${hasBucket}
         else
-          gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
+          gsutil mb -l ${env.GCLOUD_PROJECT_REGION} -p ${env.PROJECT_ID} -c standard gs://${env.GCLOUD_TF_BUCKET_NAME}
           hasBucket=true
           echo ${hasBucket}
         fi       
