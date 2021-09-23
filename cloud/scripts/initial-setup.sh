@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export HOME=/root
+export HOME=/home/ubuntu
 export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 
 CARDANO_NODE_TAG=1.29.0 
@@ -82,3 +82,20 @@ cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node
 cardano-node version
 cardano-cli version
 
+mkdir $NODE_HOME
+cd $NODE_HOME
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-shelley-genesis.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-alonzo-genesis.json
+wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
+
+sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
+sed -i ${NODE_CONFIG}-config.json -e "s/TraceMemPool\": true/TraceMemPool\": false/g"
+
+echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
+source $HOME/.bashrc
+
+chown -R ubuntu:ubuntu $HOME/
+
+#
