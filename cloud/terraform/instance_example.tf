@@ -10,7 +10,7 @@ resource "google_compute_instance" "vm" {
     }
   }
 
-  metadata_startup_script = "echo hi > /test.txt; sleep 500"
+  metadata_startup_script = "${file("${var.startup_script}")}"
 
   network_interface {
     network = "default"
