@@ -1,2 +1,3 @@
 credential*.json
 cloud/terraform/.terraform*
+*tfstate*
