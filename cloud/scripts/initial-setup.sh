@@ -64,9 +64,9 @@ git checkout tags/${CARDANO_NODE_TAG}
 
 cabal configure -O0 -w ghc-8.10.7
 
-#echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
-#sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
-#rm -rf $HOME/git/cardano-node/dist-newstyle/build/x86_64-linux/ghc-8.10.7
+echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
+sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
+rm -rf $HOME/git/cardano-node/dist-newstyle/build/x86_64-linux/ghc-8.10.7
 
 cabal build cardano-cli cardano-node
 #
@@ -75,4 +75,10 @@ cabal build cardano-cli cardano-node
 #HEAD is now at edc6d4672 Merge pull request #3430 from input-output-hk/hkm/windows-cross
 #Scripts: startup-script: cabal: Cannot find the program 'ghc'. User-specified path 'ghc-8.10.7' does
 #startup-script: not refer to an executable and the program is not on the system path.
+
+cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") /usr/local/bin/cardano-cli
+cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") /usr/local/bin/cardano-node
+
+cardano-node version
+cardano-cli version
 
