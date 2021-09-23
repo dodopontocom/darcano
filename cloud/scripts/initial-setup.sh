@@ -67,6 +67,6 @@ $HOME/.ghcup/bin/cabal configure -O0 -w ghc-8.10.7
 #sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
 #rm -rf $HOME/git/cardano-node/dist-newstyle/build/x86_64-linux/ghc-8.10.7
 
-.ghcup/bin/cabal build cardano-cli cardano-node
+$HOME/.ghcup/bin/cabal build cardano-cli cardano-node
 
 #
