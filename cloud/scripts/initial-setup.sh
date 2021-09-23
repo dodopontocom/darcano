@@ -69,3 +69,4 @@ $HOME/.ghcup/bin/cabal configure -O0 -w ghc-8.10.7
 
 $HOME/.ghcup/bin/cabal build cardano-cli cardano-node
 #
+
