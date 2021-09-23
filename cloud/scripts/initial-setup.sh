@@ -31,3 +31,5 @@ chmod +x ghcup.sh
 .ghcup/bin/ghcup upgrade
 .ghcup/bin/ghcup install cabal 3.4.0.0
 .ghcup/bin/ghcup set cabal 3.4.0.0
+
+###
