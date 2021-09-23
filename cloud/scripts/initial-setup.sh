@@ -28,14 +28,15 @@ curl --proto '=https' --tlsv1.2 -sSf -o ghcup.sh https://get-ghcup.haskell.org
 chmod +x ghcup.sh
 ./ghcup.sh
 
-# as NOINTERACTIVE is activated we have to use full path when calling the apps
-$HOME/.ghcup/bin/ghcup upgrade
-$HOME/.ghcup/bin/ghcup install cabal 3.4.0.0
-$HOME/.ghcup/bin/ghcup set cabal 3.4.0.0
+source $HOME/.ghcup/env
+
+ghcup upgrade
+ghcup install cabal 3.4.0.0
+ghcup set cabal 3.4.0.0
 ###
 
-$HOME/.ghcup/bin/ghcup install ghc 8.10.7
-$HOME/.ghcup/bin/ghcup set ghc 8.10.7
+ghcup install ghc 8.10.7
+ghcup set ghc 8.10.7
 
 echo "path: ${PATH}"
 
@@ -51,9 +52,9 @@ source $HOME/.bashrc
 
 # --testnet-magic 1097911063
 
-.ghcup/bin/cabal update
-.ghcup/bin/cabal --version
-.ghcup/bin/ghc --version
+cabal update
+cabal --version
+ghc --version
 
 cd $HOME/git
 git clone https://github.com/input-output-hk/cardano-node.git
@@ -61,12 +62,17 @@ cd cardano-node
 git fetch --all --recurse-submodules --tags
 git checkout tags/${CARDANO_NODE_TAG}
 
-$HOME/.ghcup/bin/cabal configure -O0 -w ghc-8.10.7
+cabal configure -O0 -w ghc-8.10.7
 
 #echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
 #sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
 #rm -rf $HOME/git/cardano-node/dist-newstyle/build/x86_64-linux/ghc-8.10.7
 
-$HOME/.ghcup/bin/cabal build cardano-cli cardano-node
+cabal build cardano-cli cardano-node
 #
+
+#HEAD is now at 877ce057f Merge #3305
+#HEAD is now at edc6d4672 Merge pull request #3430 from input-output-hk/hkm/windows-cross
+#Scripts: startup-script: cabal: Cannot find the program 'ghc'. User-specified path 'ghc-8.10.7' does
+#startup-script: not refer to an executable and the program is not on the system path.
 
