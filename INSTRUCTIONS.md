@@ -21,3 +21,6 @@
 - Change `GCLOUD_TF_BUCKET_NAME` value (need to change it to a unique name)
 - Execute the following terraform commands
 
+##
+
+
