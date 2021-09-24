@@ -1,11 +1,20 @@
-resource "google_compute_instance" "base_vm" {
+variable "node_count" {
+  default = "2"
+}
+
+resource "google_compute_instance" "pool_nodes" {
   provider     = google-beta
-  name         = "tf-base-${random_id.random_id.hex}"
+  count        = "${var.node_count}"
+  name         = "tf-pn-${count.index}-${random_id.random_id.hex}"
   machine_type = "e2-standard-2"
   zone         = "us-central1-a"
 
+  labels       = {
+      "env" = "testnet"
+  }
+
   boot_disk {
-    source      = google_compute_disk.base_disk.name
+    source      = google_compute_disk.pool_nodes_disk[count.index].name
   }
 
   metadata_startup_script = "${file("${var.startup_script}")}"
@@ -22,22 +31,25 @@ data "google_compute_image" "ubuntu_image" {
   project = "ubuntu-os-cloud"
 }
 
-resource "google_compute_disk" "base_disk" {
-  name  = "base-disk"
+resource "google_compute_disk" "pool_nodes_disk" {
+  count        = "${var.node_count}"
+  name  = "tf-disk-${count.index}-${random_id.random_id.hex}"
   image = data.google_compute_image.ubuntu_image.self_link
   size  = 40
   type  = "pd-ssd"
   zone  = "us-central1-a"
 }
 
+/*
 resource "google_compute_machine_image" "image" {
   provider        = google-beta
   name         = "tf-image-${random_id.random_id.hex}"
-  source_instance = google_compute_instance.base_vm.self_link
+  source_instance = google_compute_instance.pool_nodes.self_link
 }
+*/
 
-output "base_vm-ip" {
-  value = google_compute_instance.base_vm.network_interface.0.access_config.0.nat_ip
+output "pool_nodes-ip" {
+  value = google_compute_instance.pool_nodes[*].network_interface.0.access_config.0.nat_ip
 }
 
 
