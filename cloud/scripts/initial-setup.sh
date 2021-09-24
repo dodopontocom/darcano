@@ -99,4 +99,4 @@ echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 
 chown -R ubuntu:ubuntu $HOME/cardano-my-node
-#
+# sudo journalctl -u google-startup-scripts.service
