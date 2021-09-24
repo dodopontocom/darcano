@@ -1,3 +1,4 @@
+//https://learn.hashicorp.com/tutorials/terraform/google-cloud-platform-build?in=terraform/gcp-get-started
 terraform {
   required_version = ">= 1.0.6"
 }
