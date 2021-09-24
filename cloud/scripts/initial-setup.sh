@@ -41,13 +41,14 @@ ghcup set ghc 8.10.7
 echo "path: ${PATH}"
 
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
+LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 echo export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
+NODE_HOME=$HOME/cardano-my-node
 echo export NODE_HOME=$HOME/cardano-my-node >> $HOME/.bashrc
-echo export NODE_CONFIG=mainnet>> $HOME/.bashrc
+NODE_CONFIG=testnet
+echo export NODE_CONFIG=testnet >> $HOME/.bashrc
+NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g')
 echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
-source $HOME/.bashrc
-
-echo export NODE_CONFIG=testnet>> $HOME/.bashrc
 source $HOME/.bashrc
 
 # --testnet-magic 1097911063
@@ -82,9 +83,7 @@ cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node
 cardano-node version
 cardano-cli version
 
-source $HOME/.bashrc
-#mkdir $NODE_HOME
-mkdir $HOME/cardano-my-node
+mkdir $NODE_HOME
 cd $NODE_HOME
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
@@ -95,6 +94,7 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
 
+CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket"
 echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 
