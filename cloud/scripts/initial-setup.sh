@@ -100,3 +100,6 @@ source $HOME/.bashrc
 
 chown -R ubuntu:ubuntu $HOME/cardano-my-node
 # sudo journalctl -u google-startup-scripts.service
+
+# run blockchain to update data
+cardano-node run --config ${NODE_HOME}/${NODE_CONFIG}-config.json --database-path ${NODE_HOME}/db --socket-path ${NODE_HOME}/db/socket --host-addr 127.0.0.1 --port 1337 --topology ${NODE_HOME}/${NODE_CONFIG}-topology.json
