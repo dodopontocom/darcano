@@ -25,6 +25,8 @@ https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/c
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_machine_image  
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance  
 
+https://github.com/roughentomologyx/gotty
+
 ### Ada
 https://cardano.org/what-is-ada/
 
