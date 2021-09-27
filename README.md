@@ -1,5 +1,6 @@
 # darcano ( 🦤 )
-It is an anagram for [Cardano](https://developers.cardano.org/)
+It is an anagram for [Cardano](https://developers.cardano.org/)  
+LiveView the Block Producer: http://34.132.30.99:8090/lms0af3g/
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
