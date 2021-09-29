@@ -42,3 +42,5 @@ Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)
 # Donation
 - Ada address  
 addr1q8nsyv5g7engrm20rc28rxnvfae07lt3awentfhkpddnnle2t4kf2u8vntttsq2xj9vs8qms6sqm3j37tm3kcjhsy8nsr6q76a
+
+![image](ada_my_address.png)
