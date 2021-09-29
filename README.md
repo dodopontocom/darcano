@@ -36,6 +36,9 @@ https://daedaluswallet.io/
 Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)  
 [here](INSTRUCTIONS.md)
 
+> # Warranty
+There is no warranty. Use at your own risk. The code is public and fully auditable by you, and its your responsibility to do so.
+
 # Donation
 - Ada address  
 addr1q8nsyv5g7engrm20rc28rxnvfae07lt3awentfhkpddnnle2t4kf2u8vntttsq2xj9vs8qms6sqm3j37tm3kcjhsy8nsr6q76a
