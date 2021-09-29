@@ -37,7 +37,7 @@ Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)
 [here](INSTRUCTIONS.md)
 
 > # Warranty
-There is no warranty. Use at your own risk. The code is public and fully auditable by you, and its your responsibility to do so.
+> ***There is no warranty. Use at your own risk. The code is public and fully auditable by you, and its your responsibility to do so.
 
 # Donation
 - Ada address  
