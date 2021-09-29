@@ -1,7 +1,5 @@
 # darcano ( 🦤 )
 It is an anagram for [Cardano](https://developers.cardano.org/)  
-LiveView the Block Producer: http://34.132.30.99:8090/lms0af3g/  
-Topology fetch list (logs): http://35.225.200.126:8090/9sinr0iz/
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
@@ -37,3 +35,7 @@ https://daedaluswallet.io/
 # DIY or Try it yourself
 Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)  
 [here](INSTRUCTIONS.md)
+
+# Donation
+- Ada address  
+addr1q8nsyv5g7engrm20rc28rxnvfae07lt3awentfhkpddnnle2t4kf2u8vntttsq2xj9vs8qms6sqm3j37tm3kcjhsy8nsr6q76a
