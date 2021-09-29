@@ -1,3 +1,5 @@
+(WIP) -> this is in alpha version
+
 ### Lets try using Google Cloud Platform
 
 # Pre-requisites
