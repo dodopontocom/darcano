@@ -2,7 +2,7 @@
 It is an anagram for [Cardano](https://developers.cardano.org/)  
 
 # Note
-This repo is for staging/development of production repo below
+This repo is for ***staging/development*** of production repo below
 > https://github.com/menas-cloud/menas-pool
 
 
