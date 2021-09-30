@@ -1,6 +1,11 @@
 # darcano ( 🦤 )
 It is an anagram for [Cardano](https://developers.cardano.org/)  
 
+# Note
+This repo is for staging/development of production repo below
+> https://github.com/menas-cloud/menas-pool
+
+
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
 This will be implemented on cloud based infrastructure and automated as much as possible. Maybe multi-cloud but for now mostly in [GCP](https://cloud.google.com/products).
