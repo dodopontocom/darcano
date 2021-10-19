@@ -24,7 +24,6 @@ https://github.com/dodopontocom/terraform-gcp-lab/blob/develop/.circleci/cicd-de
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_from_machine_image  
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_machine_image  
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance  
-
 https://github.com/roughentomologyx/gotty
 
 ### Ada
