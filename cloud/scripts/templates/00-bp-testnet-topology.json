@@ -1,0 +1,9 @@
+{
+  "Producers": [
+    {
+      "addr": "RN_NODE_EXTERNAL_IP",
+      "port": 3001,
+      "valency": 2
+    }
+  ]
+}
