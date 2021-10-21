@@ -18,6 +18,11 @@ resource "google_compute_instance" "pool_nodes" {
   }
 
   metadata_startup_script = "${file("${var.startup_script}")}"
+  
+  metadata = {
+    TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
+    TELEGRAM_ID = "${var.NOTIFICATION_IDS}"
+  }
 
   network_interface {
     network = "default"

@@ -10,7 +10,9 @@ env:
   PROJECT_ID: theta-inkwell-326216
   GCLOUD_TF_BUCKET_NAME: darcano-terraform-state
   GCLOUD_PROJECT_REGION: us-central1
-  GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}  
+  GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  TELEGRAM_ID: ${{ secrets.TELEGRAM_ID }}
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -60,6 +62,8 @@ jobs:
       if: "contains( env.commit_msg, '[terraform-apply]')"
       run: |
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
+          export TF_VAR_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+          export TF_VAR_TELEGRAM_ID=${TELEGRAM_ID}
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform plan
