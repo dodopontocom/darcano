@@ -102,8 +102,8 @@ cabal build cardano-cli cardano-node
 sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") /usr/local/bin/cardano-cli
 sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") /usr/local/bin/cardano-node
 
-/usr/local/bin/cardano-node version
-/usr/local/bin/cardano-cli version
+/usr/local/bin/cardano-node --version
+/usr/local/bin/cardano-cli --version
 
 mkdir $NODE_HOME
 cd $NODE_HOME
@@ -115,7 +115,7 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 
 #leave TraceMempool as it is in BP and false in relay
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
-sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
+#sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
 
 CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket"
 echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
@@ -148,4 +148,3 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 ##############################################################################
 ############# Initial setup - cabal/ghc/cardano-cli/cardano-node #############
 ##############################################################################
-
