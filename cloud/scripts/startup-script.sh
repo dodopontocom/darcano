@@ -120,8 +120,8 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
 #sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
 
-CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket"
-echo export CARDANO_NODE_SOCKET_PATH="$NODE_HOME/db/socket" >> $HOME/.bashrc
+CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
+echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 
 chown -R ubuntu:ubuntu $HOME/cardano-my-node
@@ -135,8 +135,6 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
     --host-addr 0.0.0.0 --port ${NODE_PORT} --topology ${NODE_HOME}/${NODE_CONFIG}-topology.json \
     > ${NODE_HOME}/run.out 2>&1 &
 
-sudo chown -R ubuntu:ubuntu ${HOME}
-
 message=$(tail -1 ${NODE_HOME}/run.out)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="seems all went good"
 #curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="last line log"
@@ -145,8 +143,13 @@ message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
 sleep 120
-message=$(/usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'"' -f2)
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+sudo chown -R ubuntu:ubuntu ${HOME}
+while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) < 22 ]]; do
+    message="sync progress: "
+    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
+    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+    sleep 1200
+done
 
 ##############################################################################
 ############# Configuring/Starting Nodes systemd #############
