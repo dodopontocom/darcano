@@ -13,6 +13,23 @@ env:
   GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   TELEGRAM_ID: ${{ secrets.TELEGRAM_ID }}
+  COLD_DELEG_CERT: ${{ secrets.COLD_DELEG_CERT }}
+  COLD_NODE_CERT: ${{ secrets.COLD_NODE_CERT }}
+  COLD_NODE_COUNTER: ${{ secrets.COLD_NODE_COUNTER }}
+  COLD_NODE_SKEY: ${{ secrets.COLD_NODE_SKEY }}
+  COLD_NODE_VKEY: ${{ secrets.COLD_NODE_VKEY }}
+  COLD_PAY_ADDR: ${{ secrets.COLD_PAY_ADDR }}
+  COLD_PAY_SKEY: ${{ secrets.COLD_PAY_SKEY }}
+  COLD_PAY_VKEY: ${{ secrets.COLD_PAY_VKEY }}
+  COLD_POOL_CERT: ${{ secrets.COLD_POOL_CERT }}
+  COLD_STAKE_ADDR: ${{ secrets.COLD_STAKE_ADDR }}
+  COLD_STAKE_CERT: ${{ secrets.COLD_STAKE_CERT }}
+  COLD_STAKE_SKEY: ${{ secrets.COLD_STAKE_SKEY }}
+  COLD_STAKE_VKEY: ${{ secrets.COLD_STAKE_VKEY }}
+  EVOLVING_SKEY: ${{ secrets.EVOLVING_SKEY }}
+  EVOLVING_VKEY: ${{ secrets.EVOLVING_VKEY }}
+  VRF_SKEY: ${{ secrets.VRF_SKEY }}
+  VRF_VKEY: ${{ secrets.VRF_VKEY }}
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -64,6 +81,23 @@ jobs:
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
           export TF_VAR_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
           export TF_VAR_TELEGRAM_ID=${TELEGRAM_ID}
+          export TF_VAR_COLD_DELEG_CERT=${COLD_DELEG_CERT}
+          export TF_VAR_COLD_NODE_CERT=${COLD_NODE_CERT}
+          export TF_VAR_COLD_NODE_COUNTER=${COLD_NODE_COUNTER}
+          export TF_VAR_COLD_NODE_SKEY=${COLD_NODE_SKEY}
+          export TF_VAR_COLD_NODE_VKEY=${COLD_NODE_VKEY}
+          export TF_VAR_COLD_PAY_ADDR=${COLD_PAY_ADDR}
+          export TF_VAR_COLD_PAY_SKEY=${COLD_PAY_SKEY}
+          export TF_VAR_COLD_PAY_VKEY=${COLD_PAY_VKEY}
+          export TF_VAR_COLD_POOL_CERT=${COLD_POOL_CERT}
+          export TF_VAR_COLD_STAKE_ADDR=${COLD_STAKE_ADDR}
+          export TF_VAR_COLD_STAKE_CERT=${COLD_STAKE_CERT}
+          export TF_VAR_COLD_STAKE_SKEY=${COLD_STAKE_SKEY}
+          export TF_VAR_COLD_STAKE_VKEY=${COLD_STAKE_VKEY}
+          export TF_VAR_EVOLVING_SKEY=${EVOLVING_SKEY}
+          export TF_VAR_EVOLVING_VKEY=${EVOLVING_VKEY}
+          export TF_VAR_VRF_SKEY=${VRF_SKEY}
+          export TF_VAR_VRF_VKEY=${VRF_VKEY}
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform plan
