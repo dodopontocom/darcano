@@ -21,7 +21,7 @@ resource "google_compute_instance" "pool_nodes" {
   
   metadata = {
     TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
-    TELEGRAM_ID = "${var.NOTIFICATION_IDS}"
+    TELEGRAM_ID = "${var.TELEGRAM_ID}"
   }
 
   network_interface {
