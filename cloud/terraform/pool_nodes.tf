@@ -22,6 +22,23 @@ resource "google_compute_instance" "pool_nodes" {
   metadata = {
     TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
     TELEGRAM_ID = "${var.TELEGRAM_ID}"
+    COLD_DELEG_CERT = "${var.COLD_DELEG_CERT}"
+    COLD_NODE_CERT = "${var.COLD_NODE_CERT}"
+    COLD_NODE_COUNTER = "${var.COLD_NODE_COUNTER}"
+    COLD_NODE_SKEY = "${var.COLD_NODE_SKEY}"
+    COLD_NODE_VKEY = "${var.COLD_NODE_VKEY}"
+    COLD_PAY_ADDR = "${var.COLD_PAY_ADDR}"
+    COLD_PAY_SKEY = "${var.COLD_PAY_SKEY}"
+    COLD_PAY_VKEY = "${var.COLD_PAY_VKEY}"
+    COLD_POOL_CERT = "${var.COLD_POOL_CERT}"
+    COLD_STAKE_ADDR = "${var.COLD_STAKE_ADDR}"
+    COLD_STAKE_CERT = "${var.COLD_STAKE_CERT}"
+    COLD_STAKE_SKEY = "${var.COLD_STAKE_SKEY}"
+    COLD_STAKE_VKEY = "${var.COLD_STAKE_VKEY}"
+    EVOLVING_SKEY = "${var.EVOLVING_SKEY}"
+    EVOLVING_VKEY = "${var.EVOLVING_VKEY}"
+    VRF_SKEY = "${var.VRF_SKEY}"
+    VRF_VKEY = "${var.VRF_VKEY}"
   }
 
   network_interface {
