@@ -135,15 +135,17 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
     --host-addr 0.0.0.0 --port ${NODE_PORT} --topology ${NODE_HOME}/${NODE_CONFIG}-topology.json \
     > ${NODE_HOME}/run.out 2>&1 &
 
+sudo chown -R ubuntu:ubuntu ${HOME}
+
 message=$(tail -1 ${NODE_HOME}/run.out)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="seems all went good"
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="last line log"
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+#curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="last line log"
+#curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
 sleep 120
-message=$(/usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }')
+message=$(/usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'"' -f2)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
 ##############################################################################
