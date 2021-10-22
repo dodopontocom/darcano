@@ -48,7 +48,7 @@ sudo apt-get install -y git jq bc make automake rsync htop curl \
     libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev \
     make g++ wget libncursesw5 libtool autoconf
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="apt upgrade done"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - apt upgrade done"
 
 mkdir ~/git
 cd ~/git
@@ -62,7 +62,7 @@ sudo make install
 
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="install libsodium done"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - install libsodium done"
 
 sudo apt-get -y install pkg-config libgmp-dev libssl-dev \
     libtinfo-dev libsystemd-dev zlib1g-dev build-essential \
@@ -101,7 +101,7 @@ cabal update
 cabal --version
 ghc --version
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="ghcup,cabal setup done"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ghcup,cabal setup done"
 
 cd $HOME/git
 git clone https://github.com/input-output-hk/cardano-node.git
@@ -123,7 +123,7 @@ sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano
 /usr/local/bin/cardano-node --version
 /usr/local/bin/cardano-cli --version
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="configure and build cardano cli node done"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - configure and build cardano cli node done"
 
 mkdir $NODE_HOME
 cd $NODE_HOME
@@ -162,7 +162,7 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 sleep 120
 sudo chown -R ubuntu:ubuntu ${HOME}
 while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) < 99 ]]; do
-    message="sync progress: "
+    message="${HOSTNAME} - sync progress: "
     message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
     curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
     sleep 1200
