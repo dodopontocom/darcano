@@ -6,7 +6,7 @@ resource "google_compute_instance" "pool_nodes" {
   provider     = google-beta
   count        = "${var.node_count}"
   name         = "tf-pn-${count.index}-${random_id.random_id.hex}"
-  machine_type = "e2-standard-2"
+  machine_type = var.machine_type
   zone         = "us-central1-a"
 
   labels       = {
