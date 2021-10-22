@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# --testnet-magic 1097911063
+
 ##############################################################################
 ############# Hardening the system #############
 ##############################################################################
@@ -11,15 +13,16 @@
 
 export HOME=/home/ubuntu
 export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
-export TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
-export TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
-
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Hello from ${HOME}"
 
 CARDANO_NODE_TAG=1.30.1
 GHC_VERSION=8.10.7
 NODE_PORT=3000
 NODE_HOME=$HOME/cardano-my-node
+
+TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
+TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
+
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Hello from ${HOSTNAME}"
 
 sudo apt-get update -y
 sudo apt-get upgrade -y
@@ -27,6 +30,8 @@ sudo apt-get install -y git jq bc make automake rsync htop curl \
     build-essential pkg-config libffi-dev libgmp-dev \
     libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev \
     make g++ wget libncursesw5 libtool autoconf
+
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="apt upgrade done"
 
 mkdir ~/git
 cd ~/git
@@ -39,6 +44,8 @@ make
 sudo make install
 
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
+
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="install libsodium done"
 
 sudo apt-get -y install pkg-config libgmp-dev libssl-dev \
     libtinfo-dev libsystemd-dev zlib1g-dev build-essential \
@@ -73,11 +80,11 @@ NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deploym
 echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
 source $HOME/.bashrc
 
-# --testnet-magic 1097911063
-
 cabal update
 cabal --version
 ghc --version
+
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="ghcup,cabal setup done"
 
 cd $HOME/git
 git clone https://github.com/input-output-hk/cardano-node.git
@@ -92,18 +99,14 @@ sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
 #rm -rf $HOME/git/cardano-node/dist-newstyle/build/x86_64-linux/ghc-${GHC_VERSION}
 
 cabal build cardano-cli cardano-node
-#
-
-#HEAD is now at 877ce057f Merge #3305
-#HEAD is now at edc6d4672 Merge pull request #3430 from input-output-hk/hkm/windows-cross
-#Scripts: startup-script: cabal: Cannot find the program 'ghc'. User-specified path 'ghc-8.10.7' does
-#startup-script: not refer to an executable and the program is not on the system path.
 
 sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") /usr/local/bin/cardano-cli
 sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") /usr/local/bin/cardano-node
 
 /usr/local/bin/cardano-node --version
 /usr/local/bin/cardano-cli --version
+
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="configure and build cardano cli node done"
 
 mkdir $NODE_HOME
 cd $NODE_HOME
@@ -125,13 +128,23 @@ chown -R ubuntu:ubuntu $HOME/cardano-my-node
 # sudo journalctl -u google-startup-scripts.service
 
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Almost there"
-# run blockchain to update data
+
+# run blockchain to sync data
 /usr/local/bin/cardano-node run --config ${NODE_HOME}/${NODE_CONFIG}-config.json \
     --database-path ${NODE_HOME}/db --socket-path ${NODE_HOME}/db/socket \
     --host-addr 0.0.0.0 --port ${NODE_PORT} --topology ${NODE_HOME}/${NODE_CONFIG}-topology.json \
     > ${NODE_HOME}/run.out 2>&1 &
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="parece tudo ok"
+message=$(tail -1 ${NODE_HOME}/run.out)
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="seems all went good"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="last line log"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+message=$(uptime -p)
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+
+sleep 120
+message=$(/usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }')
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
 ##############################################################################
 ############# Configuring/Starting Nodes systemd #############
