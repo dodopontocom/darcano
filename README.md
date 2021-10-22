@@ -1,3 +1,4 @@
+del me - run pipe
 # darcano ( 🦤 )
 It is an anagram for [Cardano](https://developers.cardano.org/)
 
