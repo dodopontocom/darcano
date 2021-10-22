@@ -1,5 +1,5 @@
-> `terraforming branch` [![Init Cloud (GCP only)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
-> develop branch      [![Init Cloud (GCP only)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=develop)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
+> [![github actions - terraforming](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
+> [![github actions - develop](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=develop)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
 
 # darcano ( 🦤 )
 It is an anagram for [Cardano](https://developers.cardano.org/)
