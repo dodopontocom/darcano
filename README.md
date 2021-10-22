@@ -1,4 +1,4 @@
-del me - run pipe
+[![Init Cloud (GCP only)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
 # darcano ( 🦤 )
 It is an anagram for [Cardano](https://developers.cardano.org/)
 
