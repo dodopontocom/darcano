@@ -161,7 +161,7 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 
 sleep 120
 sudo chown -R ubuntu:ubuntu ${HOME}
-while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) < 22 ]]; do
+while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) < 99 ]]; do
     message="sync progress: "
     message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
     curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
