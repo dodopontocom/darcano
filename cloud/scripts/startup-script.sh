@@ -168,9 +168,65 @@ while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /us
     sleep 1200
 done
 
+killall cardano-node
+
+NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
+#sed -i "s/\$CORE_NODE_EXTERNAL_IP"/${CORE_NODE_EXTERNAL_IP}/g ${DIRECTORY}/testnet-topology.json
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_EXTERNAL_IP}"
+
 ##############################################################################
 ############# Configuring/Starting Nodes systemd #############
 ##############################################################################
+
+cat > ${NODE_HOME}/startNode.sh << EOF
+#!/bin/bash
+
+DIRECTORY=/home/ubuntu/cardano-my-node
+
+PORT=3000
+HOSTADDR=0.0.0.0
+TOPOLOGY=${DIRECTORY}/testnet-topology.json
+DB_PATH=${DIRECTORY}/db
+SOCKET_PATH=${DIRECTORY}/db/socket
+CONFIG=${DIRECTORY}/testnet-config.json
+/usr/local/bin/cardano-node run --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --host-addr ${HOSTADDR} --port ${PORT} --config ${CONFIG}
+EOF
+
+cat > ${NODE_HOME}/cardano-node.service << EOF 
+# The Cardano node service (part of systemd)
+# file: /etc/systemd/system/cardano-node.service 
+
+[Unit]
+Description     = Cardano node service
+Wants           = network-online.target
+After           = network-online.target 
+
+[Service]
+User            = ${USER}
+Type            = simple
+WorkingDirectory= ${NODE_HOME}
+ExecStart       = /bin/bash -c '${NODE_HOME}/startNode.sh'
+KillSignal=SIGINT
+RestartKillSignal=SIGINT
+TimeoutStopSec=2
+LimitNOFILE=32768
+Restart=always
+RestartSec=5
+SyslogIdentifier=cardano-node
+
+[Install]
+WantedBy	= multi-user.target
+EOF
+
+sudo mv ${NODE_HOME}/cardano-node.service /etc/systemd/system/cardano-node.service
+sudo chmod 644 /etc/systemd/system/cardano-node.service
+sudo systemctl daemon-reload
+sudo systemctl enable cardano-node
+sudo systemctl reload-or-restart cardano-node
+sudo systemctl start cardano-node
+
+message="${HOSTNAME} - Node is running on systemd now..."
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
 ##############################################################################
 ############# Applying templates #############
