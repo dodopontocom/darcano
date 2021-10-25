@@ -138,37 +138,17 @@ sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceB
 #sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
 
 CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
-echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> $HOME/.bashrc
-source $HOME/.bashrc
+echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> ${HOME}/.bashrc
+source ${HOME}/.bashrc
 
 chown -R ubuntu:ubuntu ${HOME}/cardano-gcloud-node
 # sudo journalctl -u google-startup-scripts.service
 
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Almost there"
-
-# run blockchain to sync data
-#/usr/local/bin/cardano-node run --config ${NODE_HOME}/${NODE_CONFIG}-config.json \
-#    --database-path ${NODE_HOME}/db --socket-path ${NODE_HOME}/db/socket \
-#    --host-addr 0.0.0.0 --port ${NODE_PORT} --topology ${NODE_HOME}/${NODE_CONFIG}-topology.json \
-#    > ${NODE_HOME}/run.out 2>&1 &
-
-message=$(tail -1 ${NODE_HOME}/run.out)
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="seems all went good"
-#curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="last line log"
-#curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 
-sleep 120
 sudo chown -R ubuntu:ubuntu ${HOME}
-#while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
-#    message="${HOSTNAME} - sync progress: "
-#    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
-#    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
-#    sleep 1200
-#done
-
-#killall cardano-node
 
 NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
 #sed -i "s/\$CORE_NODE_EXTERNAL_IP"/${CORE_NODE_EXTERNAL_IP}/g ${DIRECTORY}/testnet-topology.json
@@ -226,8 +206,22 @@ sudo systemctl enable cardano-node
 sudo systemctl reload-or-restart cardano-node
 sudo systemctl start cardano-node
 
-message="${HOSTNAME} - Node is running on systemd now..."
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+ps -ef | grep cardano-node | grep -v grep >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    message="${HOSTNAME} - Node is running on systemd now..."
+    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+fi
+
+##############################################################################
+############# Watch blockchain syncronization #############
+##############################################################################
+
+while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
+    message="${HOSTNAME} - sync progress: "
+    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
+    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+    sleep 1200
+done
 
 ##############################################################################
 ############# Applying templates #############
