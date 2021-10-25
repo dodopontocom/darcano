@@ -185,11 +185,11 @@ DIRECTORY=/home/ubuntu/cardano-my-node
 
 PORT=3000
 HOSTADDR=0.0.0.0
-TOPOLOGY=${DIRECTORY}/testnet-topology.json
-DB_PATH=${DIRECTORY}/db
-SOCKET_PATH=${DIRECTORY}/db/socket
-CONFIG=${DIRECTORY}/testnet-config.json
-/usr/local/bin/cardano-node run --topology ${TOPOLOGY} --database-path ${DB_PATH} --socket-path ${SOCKET_PATH} --host-addr ${HOSTADDR} --port ${PORT} --config ${CONFIG}
+TOPOLOGY=\${DIRECTORY}/testnet-topology.json
+DB_PATH=\${DIRECTORY}/db
+SOCKET_PATH=\${DIRECTORY}/db/socket
+CONFIG=\${DIRECTORY}/testnet-config.json
+/usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG}
 EOF
 
 cat > ${NODE_HOME}/cardano-node.service << EOF 
@@ -202,10 +202,10 @@ Wants           = network-online.target
 After           = network-online.target 
 
 [Service]
-User            = ${USER}
+User            = \${USER}
 Type            = simple
-WorkingDirectory= ${NODE_HOME}
-ExecStart       = /bin/bash -c '${NODE_HOME}/startNode.sh'
+WorkingDirectory= \${NODE_HOME}
+ExecStart       = /bin/bash -c '\${NODE_HOME}/startNode.sh'
 KillSignal=SIGINT
 RestartKillSignal=SIGINT
 TimeoutStopSec=2
@@ -220,7 +220,7 @@ EOF
 
 sudo mv ${NODE_HOME}/cardano-node.service /etc/systemd/system/cardano-node.service
 sudo chmod 644 /etc/systemd/system/cardano-node.service
-sudo chmod +x /etc/systemd/system/cardano-node.service
+sudo chmod +x ${NODE_HOME}/startNode.sh
 sudo systemctl daemon-reload
 sudo systemctl enable cardano-node
 sudo systemctl reload-or-restart cardano-node
