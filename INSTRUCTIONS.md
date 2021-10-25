@@ -3,12 +3,20 @@
 # Pre-requisites
 > ***Note --->*** Setup of pre-requisites is out of this scope, please use the guiding urls for each topic
 
+(WIP) -> this is in alpha version
+
+### Lets try using Google Cloud Platform
+
+# Pre-requisites
+
 - Google Cloud Account (free trial: https://cloud.google.com/free)  
 ***--->*** Setup a Project and Billing  
 ***--->*** Create a Service Account and Service Account json Key file (https://cloud.google.com/iam/docs/creating-managing-service-account-keys)  
 - Terraform > 1.0.6 installed
 
 # Pre-steps
+
+> ***Note --->*** It is out of this scope creating google cloud account and service account, please refer to the urls above to do so.
 
 ## in GCP
 - Clean up firewall rules
@@ -23,5 +31,3 @@
 - Execute the following terraform commands
 
 ##
-
-
