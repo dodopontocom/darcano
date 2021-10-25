@@ -220,6 +220,7 @@ sudo systemctl enable cardano-node
 sudo systemctl reload-or-restart cardano-node
 sudo systemctl start cardano-node
 
+sleep 120
 ps -ef | grep cardano-node | grep -v grep >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
     message="${HOSTNAME} - Node is running on systemd now..."
