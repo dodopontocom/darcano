@@ -17,7 +17,7 @@ export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 CARDANO_NODE_TAG=1.30.1
 GHC_VERSION=8.10.7
 NODE_PORT=3000
-NODE_HOME=$HOME/cardano-my-node
+NODE_HOME=${HOME}/cardano-gcloud-node
 
 TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
@@ -88,7 +88,7 @@ LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 echo export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
 
-echo export NODE_HOME=$HOME/cardano-my-node >> $HOME/.bashrc
+echo export NODE_HOME=${HOME}/cardano-gcloud-node >> $HOME/.bashrc
 NODE_CONFIG=testnet
 
 echo export NODE_CONFIG=testnet >> $HOME/.bashrc
@@ -141,7 +141,7 @@ CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
 echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> $HOME/.bashrc
 source $HOME/.bashrc
 
-chown -R ubuntu:ubuntu $HOME/cardano-my-node
+chown -R ubuntu:ubuntu ${HOME}/cardano-gcloud-node
 # sudo journalctl -u google-startup-scripts.service
 
 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Almost there"
@@ -161,9 +161,9 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 
 sleep 120
 sudo chown -R ubuntu:ubuntu ${HOME}
-#while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
+#while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
 #    message="${HOSTNAME} - sync progress: "
-#    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-my-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
+#    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
 #    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 #    sleep 1200
 #done
@@ -181,7 +181,7 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 cat > ${NODE_HOME}/startNode.sh << EOF
 #!/bin/bash
 
-DIRECTORY=/home/ubuntu/cardano-my-node
+DIRECTORY=/home/ubuntu/cardano-gcloud-node
 
 PORT=3000
 HOSTADDR=0.0.0.0
@@ -202,10 +202,10 @@ Wants           = network-online.target
 After           = network-online.target 
 
 [Service]
-User            = \${USER}
+User            = ubuntu
 Type            = simple
-WorkingDirectory= \${NODE_HOME}
-ExecStart       = /bin/bash -c '\${NODE_HOME}/startNode.sh'
+WorkingDirectory= ${NODE_HOME}
+ExecStart       = /bin/bash -c '${NODE_HOME}/startNode.sh'
 KillSignal=SIGINT
 RestartKillSignal=SIGINT
 TimeoutStopSec=2
