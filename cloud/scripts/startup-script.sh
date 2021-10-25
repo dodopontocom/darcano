@@ -163,6 +163,10 @@ if [[ $? -eq 0 ]]; then
     cat > ${NODE_HOME}/kes.skey <<< ${EVOLVING_SKEY}
     cat > ${NODE_HOME}/vrf.skey <<< ${VRF_SKEY}
     cat > ${NODE_HOME}/node.cert <<< ${COLD_NODE_CERT}
+    sudo chown -R ubuntu:ubuntu ${HOME}
+    sudo chmod 400 ${NODE_HOME}/kes.skey
+    sudo chmod 400 ${NODE_HOME}/vrf.skey
+    sudo chmod 400 ${NODE_HOME}/node.cert
 
     cat > ${NODE_HOME}/startNode.sh << EOF
 #!/bin/bash
