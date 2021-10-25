@@ -1,5 +1,6 @@
 variable "project_id" { } 
 variable "region" { }
+variable "zone" { }
 variable "key" { }
 variable "machine_type" { }
 variable "startup_script" { }

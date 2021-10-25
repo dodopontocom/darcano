@@ -158,7 +158,13 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 ############# Configuring/Starting Nodes systemd #############
 ##############################################################################
 
-cat > ${NODE_HOME}/startNode.sh << EOF
+echo ${HOSTNAME} | grep blockproducer
+if [[ $? -eq 0 ]]; then
+    cat > ${NODE_HOME}/kes.skey <<< ${EVOLVING_SKEY}
+    cat > ${NODE_HOME}/vrf.skey <<< ${VRF_SKEY}
+    cat > ${NODE_HOME}/node.cert <<< ${COLD_NODE_CERT}
+
+    cat > ${NODE_HOME}/startNode.sh << EOF
 #!/bin/bash
 
 DIRECTORY=/home/ubuntu/cardano-gcloud-node
@@ -169,8 +175,12 @@ TOPOLOGY=\${DIRECTORY}/testnet-topology.json
 DB_PATH=\${DIRECTORY}/db
 SOCKET_PATH=\${DIRECTORY}/db/socket
 CONFIG=\${DIRECTORY}/testnet-config.json
-/usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG}
+KES=\${DIRECTORY}/kes.skey
+VRF=\${DIRECTORY}/vrf.skey
+CERT=\${DIRECTORY}/node.cert
+/usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG} --shelley-kes-key \${KES} --shelley-vrf-key \${VRF} --shelley-operational-certificate \${CERT}
 EOF
+fi
 
 cat > ${NODE_HOME}/cardano-node.service << EOF 
 # The Cardano node service (part of systemd)

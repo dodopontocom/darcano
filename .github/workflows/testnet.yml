@@ -131,6 +131,9 @@ jobs:
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform destroy --auto-approve
+
+          message="Destroy complete!"
+          curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
           
     - name: Prompt Message
       if: "! contains( env.commit_msg, '[terraform-apply]') && !contains( env.commit_msg, '[terraform-destroy]')"
