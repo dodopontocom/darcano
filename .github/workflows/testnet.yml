@@ -138,4 +138,4 @@ jobs:
     - name: Prompt Message
       if: "! contains( env.commit_msg, '[terraform-apply]') && !contains( env.commit_msg, '[terraform-destroy]')"
       run: |
-          echo "No terraform flag was detected to run functionalities..."
+          echo "No terraform flag was detected to run functionalities!!!"
