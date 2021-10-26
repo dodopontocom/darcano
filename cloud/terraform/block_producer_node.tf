@@ -43,14 +43,14 @@ resource "google_compute_instance" "bp_node" {
   tags = ["http-server", "https-server"]
 }
 
-data "google_compute_image" "ubuntu_image" {
+data "google_compute_image" "bp_ubuntu_image" {
   family  = "ubuntu-2004-lts"
   project = "ubuntu-os-cloud"
 }
 
 resource "google_compute_disk" "bp_node_disk" {
   name  = "tf-disk-blockproducer-${random_id.random_id.hex}"
-  image = data.google_compute_image.ubuntu_image.self_link
+  image = data.google_compute_image.bp_ubuntu_image.self_link
   size  = 40
   type  = "pd-ssd"
   zone  = var.zone
