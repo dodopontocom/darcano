@@ -184,6 +184,60 @@ VRF=\${DIRECTORY}/vrf.skey
 CERT=\${DIRECTORY}/node.cert
 /usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG} --shelley-kes-key \${KES} --shelley-vrf-key \${VRF} --shelley-operational-certificate \${CERT}
 EOF
+
+    cat > ${NODE-HOME}/${NODE_CONFIG}-topology.json_ << EOF
+{
+  "Producers": [
+    {
+      "addr": "RN_NODE_EXTERNAL_IP",
+      "port": 3001,
+      "valency": 2
+    }
+  ]
+}
+EOF
+    else
+        cat > ${NODE_HOME}/startNode.sh << EOF
+#!/bin/bash
+
+DIRECTORY=/home/ubuntu/cardano-gcloud-node
+
+PORT=3000
+HOSTADDR=0.0.0.0
+TOPOLOGY=\${DIRECTORY}/testnet-topology.json
+DB_PATH=\${DIRECTORY}/db
+SOCKET_PATH=\${DIRECTORY}/db/socket
+CONFIG=\${DIRECTORY}/testnet-config.json
+/usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG}
+EOF
+
+    cat > ${NODE-HOME}/${NODE_CONFIG}-topology.json_ << EOF
+{ "resultcode": "201", "networkMagic": "1097911063", "ipType":4, "requestedIpVersion":"4", "max":"20", "Producers": [ 
+    { "addr": "BP_NODE_INTERNAL_IP", "port": 3000, "valency": 2 } ,
+    { "addr": "relays-new.cardano-testnet.iohkdev.io", "port": 3001, "valency": 2 } ,
+    { "addr": "108.236.80.77", "port": 4564, "valency": 1, "distance":922,  "continent":"NA",  "country":"US",  "region":"TX" },
+    { "addr": "143.198.233.125", "port": 6000, "valency": 1, "distance":1229,  "continent":"NA",  "country":"US",  "region":"TX" },
+    { "addr": "40.85.191.178", "port": 3001, "valency": 1, "distance":1528,  "continent":"NA",  "country":"US",  "region":"VA" },
+    { "addr": "71.244.164.205", "port": 6001, "valency": 1, "distance":1640,  "continent":"NA",  "country":"US",  "region":"MD" },
+    { "addr": "45.79.161.84", "port": 4321, "valency": 1, "distance":1813,  "continent":"NA",  "country":"US",  "region":"NJ" },
+    { "addr": "35.197.74.18", "port": 6000, "valency": 1, "distance":2088,  "continent":"NA",  "country":"US",  "region":"OR" },
+    { "addr": "12.105.221.218", "port": 6002, "valency": 1, "distance":2227,  "continent":"NA",  "country":"US",  "region":"FL" },
+    { "addr": "138.197.199.161", "port": 7777, "valency": 1, "distance":2298,  "continent":"NA",  "country":"US",  "region":"CA" },
+    { "addr": "testnet.ada.vegas", "port": 7004, "valency": 1, "distance":6869,  "continent":"EU",  "country":"GB",  "region":"ENG" },
+    { "addr": "45.147.54.171", "port": 6000, "valency": 1, "distance":6891,  "continent":"EU",  "country":"GB",  "region":"ENG" },
+    { "addr": "206.189.107.154", "port": 6000, "valency": 1, "distance":7126,  "continent":"EU",  "country":"NL",  "region":"NH" },
+    { "addr": "81.232.88.249", "port": 7055, "valency": 1, "distance":7278,  "continent":"EU",  "country":"SE",  "region":"AB" },
+    { "addr": "194.163.139.28", "port": 6000, "valency": 1, "distance":7319,  "continent":"EU",  "country":"DE",  "region":"HH" },
+    { "addr": "95.111.242.64", "port": 3001, "valency": 1, "distance":7437,  "continent":"EU",  "country":"DE",  "region":"null" },
+    { "addr": "95.179.169.157", "port": 6600, "valency": 1, "distance":7481,  "continent":"EU",  "country":"DE",  "region":"HE" },
+    { "addr": "cnode.ch", "port": 3003, "valency": 1, "distance":7597,  "continent":"EU",  "country":"CH",  "region":"GE" },
+    { "addr": "cntr-1.services.kindstudios.gr", "port": 25437, "valency": 1, "distance":7665,  "continent":"EU",  "country":"DE",  "region":"BY" },
+    { "addr": "173.249.16.130", "port": 5001, "valency": 1, "distance":7785,  "continent":"EU",  "country":"DE",  "region":"BY" },
+    { "addr": "relay-test.adaseal.eu", "port": 6000, "valency": 1, "distance":7978,  "continent":"EU",  "country":"CZ",  "region":"64" },
+    { "addr": "relay0.alpha.sp.paradigmshift.icu", "port": 6000, "valency": 1, "distance":9738,  "continent":"AS",  "country":"JP",  "region":"13" }
+  ] }
+EOF
+
 fi
 
 cat > ${NODE_HOME}/cardano-node.service << EOF 

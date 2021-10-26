@@ -1,6 +1,6 @@
-resource "google_compute_instance" "bp_node" {
+resource "google_compute_instance" "relay_node" {
   provider     = google-beta
-  name         = "tf-blockproducer-${random_id.random_id.hex}"
+  name         = "tf-relaynode-${random_id.random_id.hex}"
   machine_type = var.machine_type
   zone         = var.zone
 
@@ -9,7 +9,7 @@ resource "google_compute_instance" "bp_node" {
   }
 
   boot_disk {
-    source      = google_compute_disk.bp_node_disk.name
+    source      = google_compute_disk.relay_node_disk.name
   }
 
   metadata_startup_script = "${file("${var.startup_script}")}"
@@ -48,14 +48,14 @@ data "google_compute_image" "ubuntu_image" {
   project = "ubuntu-os-cloud"
 }
 
-resource "google_compute_disk" "bp_node_disk" {
-  name  = "tf-disk-blockproducer-${random_id.random_id.hex}"
+resource "google_compute_disk" "relay_node_disk" {
+  name  = "tf-disk-relaynode-${random_id.random_id.hex}"
   image = data.google_compute_image.ubuntu_image.self_link
   size  = 40
   type  = "pd-ssd"
   zone  = var.zone
 }
 
-output "bp_node-ip" {
-  value = google_compute_instance.bp_node.network_interface.0.access_config.0.nat_ip
+output "relay_node-ip" {
+  value = google_compute_instance.relay_node.network_interface.0.access_config.0.nat_ip
 }
