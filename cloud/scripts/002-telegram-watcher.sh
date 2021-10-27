@@ -66,7 +66,6 @@ do
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done, by" --parse_mode markdown
             sleep 2
             kill $$
-            fi
         fi
 	) &
 	done
