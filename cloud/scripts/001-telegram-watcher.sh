@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=$(mktemp -d)
 
