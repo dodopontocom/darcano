@@ -4,18 +4,15 @@ BASEDIR="$(cd $(dirname ${BASH_SOURCE[0]}) >/dev/null 2>&1 && pwd)"
 echo "--- ${BASEDIR}"
 
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
+tmp_folder=$(mktemp -d)
 
 helper.get_api() {
-  local tmp_folder
-
-  tmp_folder=$(mktemp -d)
-  
   echo "[INFO] ShellBot API - Getting the newest version"
   git clone ${API_GIT_URL} ${tmp_folder} > /dev/null
 
   echo "[INFO] Providing the API for the bot's project folder"
-  cp ${tmp_folder}/ShellBot.sh ${BASEDIR}/
-  rm -fr ${tmp_folder}
+  #cp ${tmp_folder}/ShellBot.sh ${BASEDIR}/
+  #rm -fr ${tmp_folder}
 }
 
 helper.save_relay() {
@@ -42,7 +39,7 @@ helper.save_bp() {
 
 helper.get_api
 
-source ${BASEDIR}/ShellBot.sh
+source ${tmp_folder}/ShellBot.sh
 ShellBot.init --token "${TELEGRAM_TOKEN}" --monitor --flush
 
 while :
