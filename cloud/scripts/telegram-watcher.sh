@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-BASEDIR="$(cd $(dirname ${BASH_SOURCE[0]}) >/dev/null 2>&1 && pwd)"
-echo "--- ${BASEDIR}"
-
+TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=$(mktemp -d)
 
@@ -11,8 +9,6 @@ helper.get_api() {
   git clone ${API_GIT_URL} ${tmp_folder} > /dev/null
 
   echo "[INFO] Providing the API for the bot's project folder"
-  #cp ${tmp_folder}/ShellBot.sh ${BASEDIR}/
-  #rm -fr ${tmp_folder}
 }
 
 helper.save_relay() {
