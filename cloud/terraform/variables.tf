@@ -4,6 +4,7 @@ variable "zone" { }
 variable "key" { }
 variable "machine_type" { }
 variable "startup_script" { }
+variable "telegram-watcher_script" { }
 variable "TELEGRAM_TOKEN" { }
 variable "TELEGRAM_ID" { }
 variable "COLD_DELEG_CERT" { }

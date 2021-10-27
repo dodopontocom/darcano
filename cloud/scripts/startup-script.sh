@@ -150,16 +150,15 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 
 sudo chown -R ubuntu:ubuntu ${HOME}
 
-NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
-#sed -i "s/\$CORE_NODE_EXTERNAL_IP"/${CORE_NODE_EXTERNAL_IP}/g ${DIRECTORY}/testnet-topology.json
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_EXTERNAL_IP}"
-
 ##############################################################################
 ############# Configuring/Starting Nodes systemd #############
 ##############################################################################
 
 echo ${HOSTNAME} | grep blockproducer
 if [[ $? -eq 0 ]]; then
+    NODE_INTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip)
+    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_INTERNAL_IP}"
+
     cat > ${NODE_HOME}/kes.skey <<< ${EVOLVING_SKEY}
     cat > ${NODE_HOME}/vrf.skey <<< ${VRF_SKEY}
     cat > ${NODE_HOME}/node.cert <<< ${COLD_NODE_CERT}
@@ -197,6 +196,9 @@ EOF
 }
 EOF
     else
+        NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
+        #sed -i "s/\$CORE_NODE_EXTERNAL_IP"/${CORE_NODE_EXTERNAL_IP}/g ${DIRECTORY}/testnet-topology.json
+        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_EXTERNAL_IP}"
         cat > ${NODE_HOME}/startNode.sh << EOF
 #!/bin/bash
 
