@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
+TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=$(mktemp -d)
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Iam odroidBr Bot"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Bot is ready to receive ips"
 
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
@@ -52,7 +53,6 @@ do
             if [[ $? -eq 0 ]]; then
                 helper.save_relay "${message_text[$id]}"
                 ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
-                kill $$
             fi
         fi
         if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/bp" )" ]]; then
@@ -60,7 +60,12 @@ do
             if [[ $? -eq 0 ]]; then
                 helper.save_bp "${message_text[$id]}"
                 ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
-                kill $$
+            fi
+        fi
+        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/cardano-kill-bot" )" ]]; then
+            ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done, by" --parse_mode markdown
+            sleep 2
+            kill $$
             fi
         fi
 	) &
