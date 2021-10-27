@@ -13,8 +13,8 @@ resource "google_compute_instance" "bp_node" {
   }
 
   metadata_startup_script = "
-    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/telegram-watcher.sh)
-    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/startup-script.sh)
+    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/002-telegram-watcher.sh)
+    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/003-cardano-setup.sh)
   "
   
   metadata = {
