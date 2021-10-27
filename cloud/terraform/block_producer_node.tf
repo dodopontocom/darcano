@@ -12,9 +12,8 @@ resource "google_compute_instance" "bp_node" {
     source      = google_compute_disk.bp_node_disk.name
   }
 
-  metadata_startup_script = [ "${file("${var.startup_script}")}",
-                              "${file("${var.telegram-watcher_script}")}"
-                            ]
+  metadata_startup_script = "${file("${var.startup_script}")}"
+  metadata_startup_script = "${file("${var.telegram-watcher_script}")}"
   
   metadata = {
     TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
