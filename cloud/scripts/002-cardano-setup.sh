@@ -39,8 +39,6 @@ GHC_VERSION=8.10.7
 NODE_PORT=3000
 NODE_HOME=${HOME}/cardano-gcloud-node
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Hello from ${HOSTNAME}"
-
 mkdir ~/git
 cd ~/git
 git clone https://github.com/input-output-hk/libsodium

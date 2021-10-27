@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Hello from ${HOSTNAME}"
+
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get install -y git jq bc make automake rsync htop curl \
