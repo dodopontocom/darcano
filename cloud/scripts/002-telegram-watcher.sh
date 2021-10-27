@@ -4,6 +4,10 @@ TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetada
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=$(mktemp -d)
 
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install -y jq bc curl
+
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
   git clone ${API_GIT_URL} ${tmp_folder} > /dev/null
