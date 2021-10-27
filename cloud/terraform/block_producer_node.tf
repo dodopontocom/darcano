@@ -12,10 +12,7 @@ resource "google_compute_instance" "bp_node" {
     source      = google_compute_disk.bp_node_disk.name
   }
 
-  metadata_startup_script = "
-    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/002-telegram-watcher.sh)
-    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming/cloud/scripts/003-cardano-setup.sh)
-  "
+  metadata_startup_script = "${file("${var.startup_script}")}"
   
   metadata = {
     TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
