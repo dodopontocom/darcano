@@ -173,7 +173,7 @@ CERT=\${DIRECTORY}/node.cert
 /usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG} --shelley-kes-key \${KES} --shelley-vrf-key \${VRF} --shelley-operational-certificate \${CERT}
 EOF
 
-    cat > ${NODE-HOME}/${NODE_CONFIG}-topology.json_ << EOF
+    cat > ${NODE_HOME}/${NODE_CONFIG}-topology.json_ << EOF
 {
   "Producers": [
     {
@@ -202,7 +202,7 @@ CONFIG=\${DIRECTORY}/testnet-config.json
 /usr/local/bin/cardano-node run --topology \${TOPOLOGY} --database-path \${DB_PATH} --socket-path \${SOCKET_PATH} --host-addr \${HOSTADDR} --port \${PORT} --config \${CONFIG}
 EOF
 
-    cat > ${NODE-HOME}/${NODE_CONFIG}-topology.json_ << EOF
+    cat > ${NODE_HOME}/${NODE_CONFIG}-topology.json_ << EOF
 { "resultcode": "201", "networkMagic": "1097911063", "ipType":4, "requestedIpVersion":"4", "max":"20", "Producers": [ 
     { "addr": "BP_NODE_INTERNAL_IP", "port": 3000, "valency": 2 } ,
     { "addr": "relays-new.cardano-testnet.iohkdev.io", "port": 3001, "valency": 2 } ,
