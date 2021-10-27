@@ -276,12 +276,12 @@ fi
 ############# Watch blockchain syncronization #############
 ##############################################################################
 
-while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
-    message="${HOSTNAME} - sync progress: "
-    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
-    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
-    sleep 1200
-done
+#while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
+#    message="${HOSTNAME} - sync progress: "
+#    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
+#    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+#    sleep 1200
+#done
 
 ##############################################################################
 ############# Applying templates #############
