@@ -57,5 +57,5 @@ resource "google_compute_disk" "bp_node_disk" {
 }
 
 output "bp_node-ip" {
-  value = google_compute_instance.bp_node.network_interface.0.access_config.0.nat_ip
+  value = google_compute_instance.bp_node.network_interface.0.network_ip
 }
