@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - terraforming
+      - terraforming-v1.1
       - develop
 
 env:

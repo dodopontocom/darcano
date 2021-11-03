@@ -5,8 +5,6 @@ TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=$(mktemp -d)
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Bot is ready to receive ips"
-
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
   git clone ${API_GIT_URL} ${tmp_folder} > /dev/null
@@ -41,6 +39,8 @@ helper.get_api
 source ${tmp_folder}/ShellBot.sh
 ShellBot.init --token "${TELEGRAM_TOKEN}" --monitor --flush
 
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Bot is ready to receive ips"
+
 while :
 do
 	ShellBot.getUpdates --limit 100 --offset $(ShellBot.OffsetNext) --timeout 30
@@ -71,4 +71,4 @@ do
 	done
 done
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Iam odroidBr Bot"
+curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="I will never be sent!!!"
