@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#TODO: make it as daemon systemd
+
 TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
