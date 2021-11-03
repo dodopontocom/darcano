@@ -11,23 +11,25 @@ curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d cha
 HOME=/home/ubuntu
 NODE_HOME=${HOME}/cardano-gcloud-node
 NODE_CONFIG=testnet
-BP_IP=${NODE_HOME}/bp_ip
-RELAY_IP=${NODE_HOME}/relay_ip
+BP_IP=${HOME}/bp_ip
+RELAY_IP=${HOME}/relay_ip
+
+chown -R ubuntu:ubuntu ${HOME}
 
 if [[ ${RELAY_IP} ]]; then
     RN_NODE_EXTERNAL_IP=$(cat ${RELAY_IP})
-    mv ${NODE_HOME}/${NODE_CONFIG}-topology.json ${NODE_HOME}/${NODE_CONFIG}-topology.json_bkp
-    cat ${NODE_HOME}/${NODE_CONFIG}-topology.json_  | sed 's/RN_NODE_EXTERNAL_IP/'${RN_NODE_EXTERNAL_IP}/ > ${NODE_HOME}/${NODE_CONFIG}-topology.json
-    systemctl restart cardano-node && \
+    sed -i 's/RN_NODE_EXTERNAL_IP/'${RN_NODE_EXTERNAL_IP}/ ${NODE_HOME}/${NODE_CONFIG}-topology.json_
+    mv ${NODE_HOME}/${NODE_CONFIG}-topology.json_ ${NODE_HOME}/${NODE_CONFIG}-topology.json
+    systemctl restart cardano-node.service && \
         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Node restarting..." || \
         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Node could not restart..."
 fi
 
 if [[ ${BP_IP} ]]; then
     BP_NODE_INTERNAL_IP=$(cat ${BP_IP})
-    mv ${NODE_HOME}/${NODE_CONFIG}-topology.json ${NODE_HOME}/${NODE_CONFIG}-topology.json_bkp
-    cat ${NODE_HOME}/${NODE_CONFIG}-topology.json_  | sed 's/BP_NODE_INTERNAL_IP/'${BP_NODE_INTERNAL_IP}/ > ${NODE_HOME}/${NODE_CONFIG}-topology.json
-    systemctl restart cardano-node && \
+    sed -i 's/BP_NODE_INTERNAL_IP/'${BP_NODE_INTERNAL_IP}/ ${NODE_HOME}/${NODE_CONFIG}-topology.json_
+    mv ${NODE_HOME}/${NODE_CONFIG}-topology.json_ ${NODE_HOME}/${NODE_CONFIG}-topology.json
+    systemctl restart cardano-node.service && \
         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Node restarting..." || \
         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Node could not restart..."
 fi
