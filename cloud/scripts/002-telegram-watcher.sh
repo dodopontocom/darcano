@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 #TODO: make it as daemon systemd
+#TODO: make it in two bots!!! 
 
 TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
