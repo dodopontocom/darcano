@@ -193,7 +193,7 @@ EOF
 
 DIRECTORY=/home/ubuntu/cardano-gcloud-node
 
-PORT=3000
+PORT=3001
 HOSTADDR=0.0.0.0
 TOPOLOGY=\${DIRECTORY}/testnet-topology.json
 DB_PATH=\${DIRECTORY}/db
@@ -233,7 +233,7 @@ fi
 
 cat > ${NODE_HOME}/cardano-node.service << EOF 
 # The Cardano node service (part of systemd)
-# file: /etc/systemd/system/cardano-node.service 
+# file: /etc/systemd/system/cardano-node.service
 
 [Unit]
 Description     = Cardano node service
