@@ -226,7 +226,8 @@ EOF
     { "addr": "173.249.16.130", "port": 5001, "valency": 1, "distance":7785,  "continent":"EU",  "country":"DE",  "region":"BY" },
     { "addr": "relay-test.adaseal.eu", "port": 6000, "valency": 1, "distance":7978,  "continent":"EU",  "country":"CZ",  "region":"64" },
     { "addr": "relay0.alpha.sp.paradigmshift.icu", "port": 6000, "valency": 1, "distance":9738,  "continent":"AS",  "country":"JP",  "region":"13" }
-  ] }
+  ]
+}
 EOF
 
 fi
