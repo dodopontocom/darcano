@@ -90,4 +90,6 @@ systemctl enable darcano-bot
 systemctl reload-or-restart darcano-bot
 systemctl start darcano-bot
 
-curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Bot is configured in systemd now!"
+sleep 15
+NODE_INTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip)
+curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/bp ${NODE_INTERNAL_IP}"

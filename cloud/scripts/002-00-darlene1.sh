@@ -91,4 +91,6 @@ systemctl enable darlene1-bot
 systemctl reload-or-restart darlene1-bot
 systemctl start darlene1-bot
 
-curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Bot is configured in systemd now!"
+sleep 15
+NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/relay ${NODE_EXTERNAL_IP}"
