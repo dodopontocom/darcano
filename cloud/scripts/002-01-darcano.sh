@@ -8,7 +8,7 @@ cat > /home/ubuntu/darcano.sh << EOF
 DARCANO_TOKEN=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARCANO_TOKEN)
 TELEGRAM_ID=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
-tmp_folder=/home/ubuntu
+tmp_folder=/home/ubuntu/shellBot
 
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
