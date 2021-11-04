@@ -39,7 +39,7 @@ do
 	do
 	(
         if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/relay" )" ]]; then
-		    helper.save_bp "${message_text[$id]}"
+		    helper.save_relay "${message_text[$id]}"
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
         fi
         if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
