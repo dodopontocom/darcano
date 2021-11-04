@@ -14,15 +14,14 @@ helper.get_api() {
   echo "[INFO] Providing the API for the bot's project folder"
 }
 
-helper.save_relay() {
+helper.save_bp() {
     local ip=$1
     
     array=(${ip})
-    array[0]="/relay"
+    array[0]="/bp"
     ip=(${array[@]:1})
 
-    echo "${ip}" > /home/ubuntu/relay_ip
-    echo "${ip}" > /tmp/relay_ip
+    echo "${ip}" > /home/ubuntu/bp_ip
 }
 
 helper.get_api
@@ -39,12 +38,9 @@ do
 	for id in $(ShellBot.ListUpdates)
 	do
 	(
-        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/relay" )" ]]; then
-		    echo ${HOSTNAME} | grep blockproducer
-            if [[ $? -eq 0 ]]; then
-                helper.save_relay "${message_text[$id]}"
-                ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
-            fi
+        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/bp" )" ]]; then
+            helper.save_bp "${message_text[$id]}"
+            ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
         fi
         if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/kill-darlene1" )" ]]; then
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "ok, by" --parse_mode markdown

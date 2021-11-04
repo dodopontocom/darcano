@@ -14,15 +14,14 @@ helper.get_api() {
   echo "[INFO] Providing the API for the bot's project folder"
 }
 
-helper.save_bp() {
+helper.save_relay() {
     local ip=$1
     
     array=(${ip})
-    array[0]="/bp"
+    array[0]="/relay"
     ip=(${array[@]:1})
 
-    echo "${ip}" > /home/ubuntu/bp_ip
-    echo "${ip}" > /tmp/bp_ip
+    echo "${ip}" > /home/ubuntu/relay_ip
 }
 
 helper.get_api
@@ -39,14 +38,11 @@ do
 	for id in $(ShellBot.ListUpdates)
 	do
 	(
-        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/bp" )" ]]; then
-		    echo ${HOSTNAME} | grep relaynode
-            if [[ $? -eq 0 ]]; then
-                helper.save_bp "${message_text[$id]}"
-                ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
-            fi
+        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/relay" )" ]]; then
+		    helper.save_bp "${message_text[$id]}"
+            ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done" --parse_mode markdown
         fi
-        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/cardano-kill-bot" )" ]]; then
+        if [[ "$(echo ${message_text[$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "done, by" --parse_mode markdown
             sleep 2
             kill $$
