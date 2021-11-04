@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 #TODO: make it as daemon systemd
-#TODO: make it in two bots!!! 
+#TODO: make it in two bots!!!
+
+#new bots variable
+#DARLENE1_TOKEN -> relay node
+#DARCANO_TOKEN -> bp node
 
 TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
