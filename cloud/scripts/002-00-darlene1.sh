@@ -49,7 +49,7 @@ do
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darlene1" )" ]]; then
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "ok, by" --parse_mode markdown
             sleep 2
-            kill \$\$
+            systemctl stop darlene1-bot
         fi
 	) &
 	done

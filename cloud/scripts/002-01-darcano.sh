@@ -48,7 +48,7 @@ do
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, by" --parse_mode markdown
             sleep 2
-            kill \$\$
+            systemctl stop darcano-bot
         fi
 	) &
 	done
