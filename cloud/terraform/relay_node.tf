@@ -15,7 +15,8 @@ resource "google_compute_instance" "relay_node" {
   metadata_startup_script = "${file("${var.startup_script}")}"
   
   metadata = {
-    TELEGRAM_TOKEN = "${var.TELEGRAM_TOKEN}"
+    DARLENE1_TOKEN = "${var.DARLENE1_TOKEN}"
+    DARCANO_TOKEN = "${var.DARCANO_TOKEN}"
     TELEGRAM_ID = "${var.TELEGRAM_ID}"
     COLD_DELEG_CERT = "${var.COLD_DELEG_CERT}"
     COLD_NODE_CERT = "${var.COLD_NODE_CERT}"
