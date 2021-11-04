@@ -9,7 +9,7 @@ cat > /home/ubuntu/darlene1.sh << EOF
 DARLENE1_TOKEN=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARLENE1_TOKEN)
 TELEGRAM_ID=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
-tmp_folder=\$(mktemp -d)
+tmp_folder=/home/ubuntu
 
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
@@ -91,4 +91,4 @@ systemctl enable darlene1-bot
 systemctl reload-or-restart darlene1-bot
 systemctl start darlene1-bot
 
-curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Bot is configured in systemd now!"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Bot is configured in systemd now!"
