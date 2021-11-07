@@ -22,6 +22,7 @@ NODE_CONFIG="testnet"
 nwmagic="$(cat ${NODE_HOME}/${NODE_CONFIG}-shelley-genesis.json | jq -r .networkMagic)"
 nwmagic_arg="testnet-magic ${nwmagic}"
 
+export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
 cardano-cli query protocol-parameters --${nwmagic_arg} --out-file ${NODE_HOME}/protocol.json
 
 stakePoolDeposit=$(cat ${NODE_HOME}/protocol.json | jq -r '.stakePoolDeposit')
