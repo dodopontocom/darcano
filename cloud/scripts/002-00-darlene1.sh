@@ -10,6 +10,9 @@ DARLENE1_TOKEN=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetad
 TELEGRAM_ID=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=/home/ubuntu/shellBot
+HOME=/home/ubuntu
+NODE_HOME=\${HOME}/cardano-gcloud-node
+NODE_CONFIG=testnet
 
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
@@ -26,6 +29,10 @@ helper.save_bp() {
     ip=(\${array[@]:1})
 
     echo "\${ip}" > /home/ubuntu/bp_ip
+    BP_NODE_INTERNAL_IP=\$(cat /home/ubuntu/bp_ip)
+    sed -i 's/BP_NODE_INTERNAL_IP/'\${BP_NODE_INTERNAL_IP}/ \${NODE_HOME}/\${NODE_CONFIG}-topology.json_
+    mv \${NODE_HOME}/\${NODE_CONFIG}-topology.json_ \${NODE_HOME}/\${NODE_CONFIG}-topology.json
+    systemctl restart cardano-node.service
 }
 
 helper.get_api

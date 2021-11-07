@@ -10,6 +10,10 @@ TELEGRAM_ID=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata
 API_GIT_URL="https://github.com/shellscriptx/shellbot.git"
 tmp_folder=/home/ubuntu/shellBot
 
+HOME=/home/ubuntu
+NODE_HOME=\${HOME}/cardano-gcloud-node
+NODE_CONFIG=testnet
+
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
   git clone \${API_GIT_URL} \${tmp_folder} > /dev/null
@@ -25,6 +29,10 @@ helper.save_relay() {
     ip=(\${array[@]:1})
 
     echo "\${ip}" > /home/ubuntu/relay_ip
+    RN_NODE_EXTERNAL_IP=\$(cat /home/ubuntu/relay_ip)
+    sed -i 's/RN_NODE_EXTERNAL_IP/'\${RN_NODE_EXTERNAL_IP}/ \${NODE_HOME}/\${NODE_CONFIG}-topology.json_
+    mv \${NODE_HOME}/\${NODE_CONFIG}-topology.json_ \${NODE_HOME}/\${NODE_CONFIG}-topology.json
+    systemctl restart cardano-node.service
 }
 
 helper.get_api
@@ -43,10 +51,10 @@ do
 	(
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/relay" )" ]]; then
 		    helper.save_relay "\${message_text[\$id]}"
-            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done" --parse_mode markdown
+            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
         fi
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
-            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, by" --parse_mode markdown
+            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
             sleep 2
             systemctl stop darcano-bot
         fi
@@ -93,3 +101,6 @@ systemctl start darcano-bot
 sleep 15
 NODE_INTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip)
 curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/bp ${NODE_INTERNAL_IP}"
+
+#curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="You have 1 hour to send the ips..."
+#sleep 3600
