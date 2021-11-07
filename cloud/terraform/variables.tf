@@ -24,3 +24,4 @@ variable "EVOLVING_SKEY" { }
 variable "EVOLVING_VKEY" { }
 variable "VRF_SKEY" { }
 variable "VRF_VKEY" { }
+variable "POOL_METADATA_HASH" { }

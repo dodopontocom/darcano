@@ -32,6 +32,7 @@ env:
   EVOLVING_VKEY: ${{ secrets.EVOLVING_VKEY }}
   VRF_SKEY: ${{ secrets.VRF_SKEY }}
   VRF_VKEY: ${{ secrets.VRF_VKEY }}
+  POOL_METADATA_HASH: ${{ secrets.POOL_METADATA_HASH }}
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -101,6 +102,7 @@ jobs:
           export TF_VAR_EVOLVING_VKEY=${EVOLVING_VKEY}
           export TF_VAR_VRF_SKEY=${VRF_SKEY}
           export TF_VAR_VRF_VKEY=${VRF_VKEY}
+          export TF_VAR_POOL_METADATA_HASH=${POOL_METADATA_HASH}
           
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
@@ -131,6 +133,7 @@ jobs:
           export TF_VAR_EVOLVING_VKEY=${EVOLVING_VKEY}
           export TF_VAR_VRF_SKEY=${VRF_SKEY}
           export TF_VAR_VRF_VKEY=${VRF_VKEY}
+          export TF_VAR_POOL_METADATA_HASH=${POOL_METADATA_HASH}
           
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"

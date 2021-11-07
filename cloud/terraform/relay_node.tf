@@ -35,6 +35,7 @@ resource "google_compute_instance" "relay_node" {
     EVOLVING_VKEY = "${var.EVOLVING_VKEY}"
     VRF_SKEY = "${var.VRF_SKEY}"
     VRF_VKEY = "${var.VRF_VKEY}"
+    POOL_METADATA_HASH = "${var.POOL_METADATA_HASH}"
   }
 
   network_interface {
