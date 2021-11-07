@@ -133,9 +133,9 @@ source ${HOME}/.bashrc
 chown -R ubuntu:ubuntu ${HOME}/cardano-gcloud-node
 # sudo journalctl -u google-startup-scripts.service
 
-curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Almost there"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Almost there"
 message=$(uptime -p)
-curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 
 sudo chown -R ubuntu:ubuntu ${HOME}
 
@@ -270,14 +270,16 @@ fi
 ##############################################################################
 ############# Watch blockchain syncronization #############
 ##############################################################################
-
+message=$(uptime -p)
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
     message="${HOSTNAME} - sync progress: "
     message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
     curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
     sleep 1200
 done
-
+message=$(uptime -p)
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 ##############################################################################
 ############# Creating transactions certificates #############
 ##############################################################################
