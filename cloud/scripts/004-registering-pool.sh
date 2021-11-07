@@ -132,3 +132,5 @@ if [[ "$?" -eq "0" ]]; then
         curl -s -X POST https://api.telegram.org/bot\${DARLENE1_TOKEN}/sendMessage -d chat_id=\${TELEGRAM_ID} -d text="Pool registration failed for some reason..."
 fi
 rm -f ${NODE_HOME}/gcloud.skey ${NODE_HOME}/node.skey ${NODE_HOME}/stake.skey
+
+#
