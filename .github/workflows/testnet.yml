@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - terraforming
-      - terraforming-v0.1
-      - telegram-tests
+      - terraforming-v0.6
       - develop
 
 env:
