@@ -32,7 +32,7 @@ helper.save_relay() {
     RN_NODE_EXTERNAL_IP=\$(cat /home/ubuntu/relay_ip)
     sed -i 's/RN_NODE_EXTERNAL_IP/'\${RN_NODE_EXTERNAL_IP}/ \${NODE_HOME}/\${NODE_CONFIG}-topology.json_
     mv \${NODE_HOME}/\${NODE_CONFIG}-topology.json_ \${NODE_HOME}/\${NODE_CONFIG}-topology.json
-    systemctl restart cardano-node.service
+    sudo systemctl restart cardano-node.service
 }
 
 helper.get_api
@@ -56,7 +56,7 @@ do
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
             sleep 2
-            systemctl stop darcano-bot
+            sudo systemctl stop darcano-bot
         fi
 	) &
 	done

@@ -32,7 +32,7 @@ helper.save_bp() {
     BP_NODE_INTERNAL_IP=\$(cat /home/ubuntu/bp_ip)
     sed -i 's/BP_NODE_INTERNAL_IP/'\${BP_NODE_INTERNAL_IP}/ \${NODE_HOME}/\${NODE_CONFIG}-topology.json_
     mv \${NODE_HOME}/\${NODE_CONFIG}-topology.json_ \${NODE_HOME}/\${NODE_CONFIG}-topology.json
-    systemctl restart cardano-node.service
+    sudo systemctl restart cardano-node.service
 }
 
 helper.get_api
@@ -51,12 +51,12 @@ do
 	(
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/bp" )" ]]; then
             helper.save_bp "\${message_text[\$id]}"
-            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done" --parse_mode markdown
+            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "ok, bye" --parse_mode markdown
         fi
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darlene1" )" ]]; then
-            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "ok, by" --parse_mode markdown
+            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "ok, bye" --parse_mode markdown
             sleep 2
-            systemctl stop darlene1-bot
+            sudo systemctl stop darlene1-bot
         fi
 	) &
 	done
