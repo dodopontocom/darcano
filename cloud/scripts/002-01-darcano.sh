@@ -106,6 +106,3 @@ systemctl start darcano-bot
 sleep 15
 NODE_INTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip)
 curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/bp ${NODE_INTERNAL_IP}"
-
-#curl -s -X POST https://api.telegram.org/bot${DARCANO_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="You have 1 hour to send the ips..."
-#sleep 3600
