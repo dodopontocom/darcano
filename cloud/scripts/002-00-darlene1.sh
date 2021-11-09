@@ -51,10 +51,10 @@ while :
 do
 	ShellBot.getUpdates --limit 100 --offset \$(ShellBot.OffsetNext) --timeout 30
 
-    if [[ \$(date +%m) -eq 57 ]] && [[ -f \${NODE_HOME}/topology-updater.sh ]]; then
+    if [[ \$(date +%M) -eq 57 ]] && [[ -f \${NODE_HOME}/topology-updater.sh ]]; then
         \${NODE_HOME}/topology-updater.sh 2>&1 >> \${NODE_HOME}/logs/topology-updater_lastresult.json
         message="(from bot script)Topology Updater counter: "
-        message+=\$(cat \${NODE_HOME}/logs/topologyUpdater_lastresult.json | grep "glad you're staying with us" | wc -l)
+        message+=\$(cat \${NODE_HOME}/logs/topology-updater_lastresult.json | grep "glad you're staying with us" | wc -l)
         curl -s -X POST https://api.telegram.org/bot\${DARLENE1_TOKEN}/sendMessage -d chat_id=\${TELEGRAM_ID} -d text="\${message}"
         sleep 57
     fi

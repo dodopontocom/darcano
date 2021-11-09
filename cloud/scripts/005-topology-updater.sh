@@ -14,12 +14,14 @@ if [ ! -d ${NODE_LOG_DIR} ]; then
   mkdir -p ${NODE_LOG_DIR};
 fi
 
+NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
+
 cat > ${NODE_HOME}/topology-updater.sh << EOF
 #!/usr/bin/env bash
 
 USERNAME=ubuntu
 CNODE_PORT=3001
-CNODE_HOSTNAME="34.135.62.44"
+CNODE_HOSTNAME="${NODE_EXTERNAL_IP}"
 CNODE_BIN="/usr/local/bin"
 CNODE_HOME="/home/ubuntu/cardano-gcloud-node"
 NODE_CONFIG="testnet"
@@ -38,6 +40,7 @@ curl -4 -s "https://api.clio.one/htopology/v1/?port=\${CNODE_PORT}&blockNo=\${bl
 EOF
 
 chmod +x ${NODE_HOME}/topology-updater.sh
+sudo chown -R ubuntu:ubuntu ${HOME}
 #sudo systemctl daemon-reload
 #sudo systemctl enable cardano-node
 #sudo systemctl reload-or-restart cardano-node
@@ -46,9 +49,9 @@ chmod +x ${NODE_HOME}/topology-updater.sh
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 
-while [[ $(cat ${NODE_HOME}/logs/topologyUpdater_lastresult.json | grep "glad you're staying with us" | wc -l) -lt 4 ]]; do
+while [[ $(cat ${NODE_HOME}/logs/topology-updater_lastresult.json | grep "glad you're staying with us" | wc -l) -lt 4 ]]; do
     message="Topology Updater counter: "
-    message+=$(cat ${NODE_HOME}/logs/topologyUpdater_lastresult.json | grep "glad you're staying with us" | wc -l)
+    message+=$(cat ${NODE_HOME}/logs/topology-updater_lastresult.json | grep "glad you're staying with us" | wc -l)
     curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
     sleep 1200
 done
@@ -69,3 +72,5 @@ sed -i 's/\"port\": 3000, \"valency\": 1/\"port\": 3000, \"valency\": 2/' ${NODE
 sudo systemctl restart cardano-node.service
 
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/txsProcessedNum"
+
+sudo chown -R ubuntu:ubuntu ${HOME}
