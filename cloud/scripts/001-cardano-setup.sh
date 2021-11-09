@@ -280,9 +280,6 @@ while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket"
 done
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
-##############################################################################
-############# Creating transactions certificates #############
-##############################################################################
 
 ##############################################################################
 ############# Initial setup - cabal/ghc/cardano-cli/cardano-node #############
