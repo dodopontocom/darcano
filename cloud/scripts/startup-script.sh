@@ -9,3 +9,5 @@ echo ${HOSTNAME} | grep blockproducer && \
 #bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming-v0.6/cloud/scripts/003-applying-templates.sh)
 echo ${HOSTNAME} | grep relaynode && \
     bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming-v0.6/cloud/scripts/004-registering-pool.sh)
+echo ${HOSTNAME} | grep relaynode && \    
+    bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming-v0.6/cloud/scripts/005-topology_updater.sh)

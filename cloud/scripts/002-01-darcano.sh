@@ -53,6 +53,11 @@ do
 		    helper.save_relay "\${message_text[\$id]}"
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
         fi
+        if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/txsProcessedNum" )" ]]; then
+		    message="Tx Processed: "
+            message+=\$(curl 127.0.0.1:12798/metrics | grep -i cardano_node_metrics_txsProcessedNum)
+            ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "\$(echo -e \${message})" --parse_mode markdown
+        fi
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darcano" )" ]]; then
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
             sleep 2
