@@ -14,6 +14,11 @@ HOME=/home/ubuntu
 NODE_HOME=\${HOME}/cardano-gcloud-node
 NODE_CONFIG=testnet
 
+NODE_LOG_DIR="\${NODE_HOME}/logs"
+if [ ! -d \${NODE_LOG_DIR} ]; then
+  mkdir -p \${NODE_LOG_DIR};
+fi
+
 helper.get_api() {
   echo "[INFO] ShellBot API - Getting the newest version"
   git clone \${API_GIT_URL} \${tmp_folder} > /dev/null
@@ -45,6 +50,15 @@ curl -s -X POST https://api.telegram.org/bot\${DARLENE1_TOKEN}/sendMessage -d ch
 while :
 do
 	ShellBot.getUpdates --limit 100 --offset \$(ShellBot.OffsetNext) --timeout 30
+
+    if [[ \$(date +%m) -eq 57 ]] && [[ -f \${NODE_HOME}/topology-updater.sh ]]; then
+        \${NODE_HOME}/topology-updater.sh 2>&1 >> \${NODE_HOME}/logs/topology-updater_lastresult.json
+        message="(from bot script)Topology Updater counter: "
+        message+=\$(cat \${NODE_HOME}/logs/topologyUpdater_lastresult.json | grep "glad you're staying with us" | wc -l)
+        curl -s -X POST https://api.telegram.org/bot\${DARLENE1_TOKEN}/sendMessage -d chat_id=\${TELEGRAM_ID} -d text="\${message}"
+        sleep 57
+    fi
+
 
 	for id in \$(ShellBot.ListUpdates)
 	do

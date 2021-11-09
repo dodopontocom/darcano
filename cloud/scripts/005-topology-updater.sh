@@ -9,7 +9,7 @@ curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d cha
 export HOME=/home/ubuntu
 NODE_HOME=${HOME}/cardano-gcloud-node
 
-NODE_LOG_DIR="\${NODE_HOME}/logs"
+NODE_LOG_DIR="${NODE_HOME}/logs"
 if [ ! -d ${NODE_LOG_DIR} ]; then
   mkdir -p ${NODE_LOG_DIR};
 fi
@@ -42,13 +42,6 @@ chmod +x ${NODE_HOME}/topology-updater.sh
 #sudo systemctl enable cardano-node
 #sudo systemctl reload-or-restart cardano-node
 #sudo systemctl start cardano-node
-
-cat > ${NODE_HOME}/crontab-fragment.txt << EOF
-52 * * * * /home/ubuntu/cardano-gcloud-node/topology-updater.sh 2>&1 >> /home/ubuntu/cardano-gcloud-node/logs/topology-updater_lastresult.json
-EOF
-
-crontab -l | cat - ${NODE_HOME}/crontab-fragment.txt > ${NODE_HOME}/crontab.txt && crontab ${NODE_HOME}/crontab.txt
-rm ${NODE_HOME}/crontab-fragment.txt
 
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
