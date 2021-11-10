@@ -124,7 +124,9 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 
 #leave TraceMempool as it is in BP and false in relay
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
-#sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
+if [[ $(echo ${HOSTNAME} | grep relaynode) ]]; then
+  sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
+fi
 
 CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
 echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> ${HOME}/.bashrc

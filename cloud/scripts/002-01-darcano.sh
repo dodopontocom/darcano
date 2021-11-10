@@ -55,7 +55,7 @@ do
         fi
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/txsProcessedNum" )" ]]; then
 		    message="Tx Processed: "
-            message+=\$(curl 127.0.0.1:12798/metrics | grep -i cardano_node_metrics_txsProcessedNum)
+            message+=\$(curl 127.0.0.1:12798/metrics | grep -i cardano_node_metrics_txsProcessedNum | awk '{ print \$2}')
             ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "\$(echo -e \${message})" --parse_mode markdown
         fi
         if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/kill-darcano" )" ]]; then

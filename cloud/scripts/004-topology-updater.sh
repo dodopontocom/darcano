@@ -6,7 +6,6 @@ DARLENE1_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetada
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Topology updater..."
 
-export HOME=/home/ubuntu
 NODE_HOME=${HOME}/cardano-gcloud-node
 NODE_CONFIG="testnet"
 
@@ -60,15 +59,14 @@ done
 message=$(uptime -p)
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 
-BLOCKPRODUCING_IP=$(cat ${NODE_HOME}/bp_ip)
+BP_NODE_INTERNAL_IP=$(cat ${HOME}/bp_ip)
 BLOCKPRODUCING_PORT=3000
-curl -4 -s -o ${NODE_HOME}/testnet-topology.json_script "https://api.clio.one/htopology/v1/fetch/?max=20&magic=1097911063&customPeers=${BLOCKPRODUCING_IP}:${BLOCKPRODUCING_PORT}:1|relays-new.cardano-testnet.iohk.io:3001:2"
+curl -4 -s -o ${NODE_HOME}/testnet-topology.json_script "https://api.clio.one/htopology/v1/fetch/?max=20&magic=1097911063&customPeers=${BP_NODE_INTERNAL_IP}:${BLOCKPRODUCING_PORT}:2|relays-new.cardano-testnet.iohkdev.io:3001:2"
 
 mv ${NODE_HOME}/testnet-topology.json ${NODE_HOME}/testnet-topology.json_bkp
 mv ${NODE_HOME}/testnet-topology.json_script ${NODE_HOME}/testnet-topology.json
 
-BP_NODE_INTERNAL_IP=$(cat /home/ubuntu/bp_ip)
-sed -i '2 i\ \ { "addr": "'${BP_NODE_INTERNAL_IP}'", "port": 3000, "valency": 2 } ,' ${NODE_HOME}/${NODE_CONFIG}-topology.json
+#sed -i '2 i\ \ { "addr": "'${BP_NODE_INTERNAL_IP}'", "port": 3000, "valency": 2 } ,' ${NODE_HOME}/${NODE_CONFIG}-topology.json
 #sed -i 's/BP_NODE_INTERNAL_IP/'${BP_NODE_INTERNAL_IP}/ ${NODE_HOME}/${NODE_CONFIG}-topology.json
 #sed -i 's/\"port\": 3000, \"valency\": 1/\"port\": 3000, \"valency\": 2/' ${NODE_HOME}/${NODE_CONFIG}-topology.json
 sudo systemctl restart cardano-node.service
