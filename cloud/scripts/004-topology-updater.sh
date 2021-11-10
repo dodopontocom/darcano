@@ -68,8 +68,9 @@ mv ${NODE_HOME}/testnet-topology.json ${NODE_HOME}/testnet-topology.json_bkp
 mv ${NODE_HOME}/testnet-topology.json_script ${NODE_HOME}/testnet-topology.json
 
 BP_NODE_INTERNAL_IP=$(cat /home/ubuntu/bp_ip)
-sed -i 's/BP_NODE_INTERNAL_IP/'${BP_NODE_INTERNAL_IP}/ ${NODE_HOME}/${NODE_CONFIG}-topology.json
-sed -i 's/\"port\": 3000, \"valency\": 1/\"port\": 3000, \"valency\": 2/' ${NODE_HOME}/${NODE_CONFIG}-topology.json
+sed -i '2 i\ \ { "addr": "'${BP_NODE_INTERNAL_IP}'", "port": 3000, "valency": 2 } ,' ${NODE_HOME}/${NODE_CONFIG}-topology.json
+#sed -i 's/BP_NODE_INTERNAL_IP/'${BP_NODE_INTERNAL_IP}/ ${NODE_HOME}/${NODE_CONFIG}-topology.json
+#sed -i 's/\"port\": 3000, \"valency\": 1/\"port\": 3000, \"valency\": 2/' ${NODE_HOME}/${NODE_CONFIG}-topology.json
 sudo systemctl restart cardano-node.service
 
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="/txsProcessedNum"
