@@ -8,6 +8,7 @@ curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d cha
 
 export HOME=/home/ubuntu
 NODE_HOME=${HOME}/cardano-gcloud-node
+NODE_CONFIG="testnet"
 
 NODE_LOG_DIR="${NODE_HOME}/logs"
 if [ ! -d ${NODE_LOG_DIR} ]; then
