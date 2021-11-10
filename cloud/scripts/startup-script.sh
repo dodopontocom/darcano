@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# this is the startup script sequencer
+
 bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming-v0.6/cloud/scripts/000-pre-step.sh)
 bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/terraforming-v0.6/cloud/scripts/001-cardano-setup.sh)
 if [[ $(echo ${HOSTNAME} | grep relaynode) ]]; then

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# runs on both BP only
+
 DARCANO_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARCANO_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 
