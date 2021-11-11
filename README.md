@@ -1,4 +1,4 @@
-Develop | [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml) |
+Github Actions - develop | [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml) |
 --- | --- |
 
 # darcano
@@ -6,9 +6,17 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 
 # Implementations/Backlog/Todo's
 
+- [x] Create keys/certifications/addresses for testnet
 - [x] Cardano StakePool Infra as Code  
-- [x] Telegram bot Interaction  
-- [ ] Send Block Leader Prediction  
+- [x] Setup Telegram in both Relay and BP nodes    
+- [x] Telegram command to reply BP Processed Tx  
+- [ ] (Telegram) Send Block Leader Prediction  
+- [ ] Develop Self-update Cardano-node script  
+- [ ] (Telegram) Develop commands to check metrics (prometheus)  
+- [ ] (Telegram) Develop commands to check basic servers info  
+- [ ] Dockerization  
+- [ ] (terraform) Support AWS  
+- [ ] Make all scripts support switch to mainnet and vice-versa (depends on keys/certifications/addresses creation for mainnet)  
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
