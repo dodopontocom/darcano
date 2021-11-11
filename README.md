@@ -50,10 +50,6 @@ https://cardano.org/what-is-ada/
 https://yoroi-wallet.com/#/  
 https://daedaluswallet.io/
 
-# DIY or Try it yourself
-Be able to try running Cardano node (StakePool) from ZERO to TESTNET-HERO ;)  
-[here](INSTRUCTIONS.md)
-
 # Important
 > # Warranty
 > ***There is no warranty. Use at your own risk. The code is public and fully auditable by you, and its your responsibility to do so.***
