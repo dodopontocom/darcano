@@ -2,6 +2,7 @@ Github Actions - develop | [![](https://github.com/dodopontocom/darcano/actions/
 --- | --- |
 
 # darcano - A Cardano Stake Pool on testnet  
+https://testnet.cardanoscan.io/pool/63525349b5de8286a0116c0878b676cfac8056eaeb011b8d5abd047a  
 It is an anagram for [Cardano](https://developers.cardano.org/)  
 
 # Implementations/Backlog/Todo's
