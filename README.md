@@ -12,7 +12,7 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 - [x] Cardano StakePool Infra as Code  
 - [x] Setup Telegram in both Relay and BP nodes    
 - [x] Telegram command to reply BP Processed Tx  
-- [ ] (Telegram) Send Block Leader Prediction  
+- [ ] (Telegram) Send Block Leader Prediction (every next Epoch)  
 - [ ] Allow applying or destroying infrastructure via Telegram bot
 - [ ] Develop Self-update Cardano-node script  
 - [x] (Telegram) Develop commands to check metrics (prometheus)  
