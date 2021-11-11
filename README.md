@@ -1,7 +1,7 @@
 Github Actions - develop | [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml) |
 --- | --- |
 
-# darcano
+# darcano - A Cardano Stake Pool on testnet  
 It is an anagram for [Cardano](https://developers.cardano.org/)  
 
 # Implementations/Backlog/Todo's
