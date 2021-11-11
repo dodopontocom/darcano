@@ -13,8 +13,9 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 - [x] Setup Telegram in both Relay and BP nodes    
 - [x] Telegram command to reply BP Processed Tx  
 - [ ] (Telegram) Send Block Leader Prediction  
+- [ ] Allow applying or destroying infrastructure via Telegram bot
 - [ ] Develop Self-update Cardano-node script  
-- [ ] (Telegram) Develop commands to check metrics (prometheus)  
+- [x] (Telegram) Develop commands to check metrics (prometheus)  
 - [ ] (Telegram) Develop commands to check basic servers info  
 - [ ] Improvements on handling message commits  
 - [ ] Dockerization  
