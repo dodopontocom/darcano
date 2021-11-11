@@ -1,12 +1,14 @@
-> [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
-> [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=develop)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml)  
+Develop | [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml) |
+--- | --- |
 
-# darcano ( 🦤 )
+# darcano
 It is an anagram for [Cardano](https://developers.cardano.org/)  
 
-# Note
-This repo is for ***staging/development*** of production repo below
-> https://github.com/menas-cloud/menas-pool
+# Implementations/Backlog/Todo's
+
+- [x] Cardano StakePool Infra as Code  
+- [x] Telegram bot Interaction  
+- [ ] Send Block Leader Prediction  
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
