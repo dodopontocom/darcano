@@ -16,6 +16,7 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 - [ ] Develop Self-update Cardano-node script  
 - [ ] (Telegram) Develop commands to check metrics (prometheus)  
 - [ ] (Telegram) Develop commands to check basic servers info  
+- [ ] Improvements on handling message commits  
 - [ ] Dockerization  
 - [ ] (terraform) Support AWS  
 - [ ] Make all scripts support switch to mainnet and vice-versa (depends on keys/certifications/addresses creation for mainnet)  
