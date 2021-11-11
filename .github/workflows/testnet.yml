@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - terraforming
+      - terraforming-v0.6
       - develop
 
 env:
@@ -11,7 +12,8 @@ env:
   GCLOUD_TF_BUCKET_NAME: darcano-terraform-state
   GCLOUD_PROJECT_REGION: us-central1
   GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
-  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  DARLENE1_TOKEN: ${{ secrets.DARLENE1_TOKEN }}
+  DARCANO_TOKEN: ${{ secrets.DARCANO_TOKEN }}
   TELEGRAM_ID: ${{ secrets.TELEGRAM_ID }}
   COLD_DELEG_CERT: ${{ secrets.COLD_DELEG_CERT }}
   COLD_NODE_CERT: ${{ secrets.COLD_NODE_CERT }}
@@ -30,6 +32,7 @@ env:
   EVOLVING_VKEY: ${{ secrets.EVOLVING_VKEY }}
   VRF_SKEY: ${{ secrets.VRF_SKEY }}
   VRF_VKEY: ${{ secrets.VRF_VKEY }}
+  POOL_METADATA_HASH: ${{ secrets.POOL_METADATA_HASH }}
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -79,7 +82,8 @@ jobs:
       if: "contains( env.commit_msg, '[terraform-apply]')"
       run: |
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
-          export TF_VAR_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+          export TF_VAR_DARLENE1_TOKEN=${DARLENE1_TOKEN}
+          export TF_VAR_DARCANO_TOKEN=${DARCANO_TOKEN}
           export TF_VAR_TELEGRAM_ID=${TELEGRAM_ID}
           export TF_VAR_COLD_DELEG_CERT=${COLD_DELEG_CERT}
           export TF_VAR_COLD_NODE_CERT=${COLD_NODE_CERT}
@@ -98,6 +102,7 @@ jobs:
           export TF_VAR_EVOLVING_VKEY=${EVOLVING_VKEY}
           export TF_VAR_VRF_SKEY=${VRF_SKEY}
           export TF_VAR_VRF_VKEY=${VRF_VKEY}
+          export TF_VAR_POOL_METADATA_HASH=${POOL_METADATA_HASH}
           
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
@@ -108,7 +113,8 @@ jobs:
       if: "contains( env.commit_msg, '[terraform-destroy]')"
       run: |
           echo "${GCLOUD_SA_KEY}" > cloud/credentials/credential.json
-          export TF_VAR_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+          export TF_VAR_DARLENE1_TOKEN=${DARLENE1_TOKEN}
+          export TF_VAR_DARCANO_TOKEN=${DARCANO_TOKEN}
           export TF_VAR_TELEGRAM_ID=${TELEGRAM_ID}
           export TF_VAR_COLD_DELEG_CERT=${COLD_DELEG_CERT}
           export TF_VAR_COLD_NODE_CERT=${COLD_NODE_CERT}
@@ -127,13 +133,14 @@ jobs:
           export TF_VAR_EVOLVING_VKEY=${EVOLVING_VKEY}
           export TF_VAR_VRF_SKEY=${VRF_SKEY}
           export TF_VAR_VRF_VKEY=${VRF_VKEY}
+          export TF_VAR_POOL_METADATA_HASH=${POOL_METADATA_HASH}
           
           cd cloud/terraform
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform destroy --auto-approve
 
           message="Destroy complete!"
-          curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+          curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
           
     - name: Prompt Message
       if: "! contains( env.commit_msg, '[terraform-apply]') && !contains( env.commit_msg, '[terraform-destroy]')"

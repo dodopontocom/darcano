@@ -4,7 +4,8 @@ variable "zone" { }
 variable "key" { }
 variable "machine_type" { }
 variable "startup_script" { }
-variable "TELEGRAM_TOKEN" { }
+variable "DARLENE1_TOKEN" { }
+variable "DARCANO_TOKEN" { }
 variable "TELEGRAM_ID" { }
 variable "COLD_DELEG_CERT" { }
 variable "COLD_NODE_CERT" { }
@@ -23,3 +24,4 @@ variable "EVOLVING_SKEY" { }
 variable "EVOLVING_VKEY" { }
 variable "VRF_SKEY" { }
 variable "VRF_VKEY" { }
+variable "POOL_METADATA_HASH" { }

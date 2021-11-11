@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# runs on both BP&R
+
 # --testnet-magic 1097911063
 
 ##############################################################################
@@ -11,7 +13,7 @@
 ############# Initial setup - cabal, ghc, cardano-cli, cardano-node ##########
 ##############################################################################
 
-export TELEGRAM_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_TOKEN)
+export DARLENE1_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARLENE1_TOKEN)
 export TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 export COLD_DELEG_CERT=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/COLD_DELEG_CERT)
 export COLD_NODE_CERT=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/COLD_NODE_CERT)
@@ -51,7 +53,7 @@ sudo make install
 
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - install libsodium done"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - install libsodium done"
 
 sudo apt-get -y install pkg-config libgmp-dev libssl-dev \
     libtinfo-dev libsystemd-dev zlib1g-dev build-essential \
@@ -90,7 +92,7 @@ cabal update
 cabal --version
 ghc --version
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ghcup,cabal setup done"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ghcup,cabal setup done"
 
 cd $HOME/git
 git clone https://github.com/input-output-hk/cardano-node.git
@@ -112,7 +114,7 @@ sudo cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano
 /usr/local/bin/cardano-node --version
 /usr/local/bin/cardano-cli --version
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - configure and build cardano cli node done"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - configure and build cardano cli node done"
 
 mkdir $NODE_HOME
 cd $NODE_HOME
@@ -124,7 +126,9 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 
 #leave TraceMempool as it is in BP and false in relay
 sed -i ${NODE_CONFIG}-config.json -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
-#sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
+if [[ $(echo ${HOSTNAME} | grep relaynode) ]]; then
+  sed -i ${NODE_CONFIG}-config.json -e "s/TraceMempool\": true/TraceMempool\": false/g"
+fi
 
 CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket"
 echo export CARDANO_NODE_SOCKET_PATH="${NODE_HOME}/db/socket" >> ${HOME}/.bashrc
@@ -133,9 +137,9 @@ source ${HOME}/.bashrc
 chown -R ubuntu:ubuntu ${HOME}/cardano-gcloud-node
 # sudo journalctl -u google-startup-scripts.service
 
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="Almost there"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - Almost there"
 message=$(uptime -p)
-curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 
 sudo chown -R ubuntu:ubuntu ${HOME}
 
@@ -145,9 +149,6 @@ sudo chown -R ubuntu:ubuntu ${HOME}
 
 echo ${HOSTNAME} | grep blockproducer
 if [[ $? -eq 0 ]]; then
-    NODE_INTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/ip)
-    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_INTERNAL_IP}"
-
     cat > ${NODE_HOME}/kes.skey <<< ${EVOLVING_SKEY}
     cat > ${NODE_HOME}/vrf.skey <<< ${VRF_SKEY}
     cat > ${NODE_HOME}/node.cert <<< ${COLD_NODE_CERT}
@@ -185,15 +186,12 @@ EOF
 }
 EOF
     else
-        NODE_EXTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
-        #sed -i "s/\$CORE_NODE_EXTERNAL_IP"/${CORE_NODE_EXTERNAL_IP}/g ${DIRECTORY}/testnet-topology.json
-        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${NODE_EXTERNAL_IP}"
         cat > ${NODE_HOME}/startNode.sh << EOF
 #!/bin/bash
 
 DIRECTORY=/home/ubuntu/cardano-gcloud-node
 
-PORT=3000
+PORT=3001
 HOSTADDR=0.0.0.0
 TOPOLOGY=\${DIRECTORY}/testnet-topology.json
 DB_PATH=\${DIRECTORY}/db
@@ -226,14 +224,15 @@ EOF
     { "addr": "173.249.16.130", "port": 5001, "valency": 1, "distance":7785,  "continent":"EU",  "country":"DE",  "region":"BY" },
     { "addr": "relay-test.adaseal.eu", "port": 6000, "valency": 1, "distance":7978,  "continent":"EU",  "country":"CZ",  "region":"64" },
     { "addr": "relay0.alpha.sp.paradigmshift.icu", "port": 6000, "valency": 1, "distance":9738,  "continent":"AS",  "country":"JP",  "region":"13" }
-  ] }
+  ]
+}
 EOF
 
 fi
 
 cat > ${NODE_HOME}/cardano-node.service << EOF 
 # The Cardano node service (part of systemd)
-# file: /etc/systemd/system/cardano-node.service 
+# file: /etc/systemd/system/cardano-node.service
 
 [Unit]
 Description     = Cardano node service
@@ -269,27 +268,22 @@ sleep 120
 ps -ef | grep cardano-node | grep -v grep >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
     message="${HOSTNAME} - Node is running on systemd now..."
-    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+    curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
 fi
 
 ##############################################################################
 ############# Watch blockchain syncronization #############
 ##############################################################################
-
-#while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 99 ]]; do
-#    message="${HOSTNAME} - sync progress: "
-#    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
-#    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
-#    sleep 1200
-#done
-
-##############################################################################
-############# Applying templates #############
-##############################################################################
-
-##############################################################################
-############# Creating transactions certificates #############
-##############################################################################
+message=$(uptime -p)
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
+while [[ $(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-) -lt 100 ]]; do
+    message="${HOSTNAME} - sync progress: "
+    message+=$(CARDANO_NODE_SOCKET_PATH="/home/ubuntu/cardano-gcloud-node/db/socket" /usr/local/bin/cardano-cli query tip --testnet-magic 1097911063 | grep -i sync | awk '{ print $2 }' | cut -d'.' -f1 | cut -c 2-)
+    curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
+    sleep 1200
+done
+message=$(uptime -p)
+curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - ${message}"
 
 ##############################################################################
 ############# Initial setup - cabal/ghc/cardano-cli/cardano-node #############
