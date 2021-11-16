@@ -13,6 +13,6 @@ sudo apt-get upgrade -y
 sudo apt-get install -y git jq bc make automake rsync htop curl \
     build-essential pkg-config libffi-dev libgmp-dev \
     libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev \
-    make g++ wget libncursesw5 libtool autoconf
+    make g++ wget libncursesw5 libtool autoconf libncurses-dev libtinfo5
 
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - apt upgrade done"

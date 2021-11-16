@@ -33,13 +33,13 @@ export EVOLVING_VKEY=$(curl -H "Metadata-Flavor: Google" http://metadata/compute
 export VRF_SKEY=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/VRF_SKEY)
 export VRF_VKEY=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/VRF_VKEY)
 
-export HOME=/home/ubuntu
+export HOME="/home/ubuntu"
 export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 
-CARDANO_NODE_TAG=1.30.1
-GHC_VERSION=8.10.7
+CARDANO_NODE_TAG="1.31.0"
+GHC_VERSION="8.10.7"
 NODE_PORT=3000
-NODE_HOME=${HOME}/cardano-gcloud-node
+NODE_HOME="${HOME}/cardano-gcloud-node"
 
 mkdir ~/git
 cd ~/git
@@ -54,10 +54,6 @@ sudo make install
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 
 curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${HOSTNAME} - install libsodium done"
-
-sudo apt-get -y install pkg-config libgmp-dev libssl-dev \
-    libtinfo-dev libsystemd-dev zlib1g-dev build-essential \
-    curl libgmp-dev libffi-dev libncurses-dev libtinfo5
 
 cd $HOME
 curl --proto '=https' --tlsv1.2 -sSf -o ghcup.sh https://get-ghcup.haskell.org
