@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# this is the startup script sequencer
+# this is the startup script sequencer !!!
 
 bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/feature/tbot-v2/cloud/scripts/000-pre-step.sh)
 bash <(curl -s https://raw.githubusercontent.com/dodopontocom/darcano/feature/tbot-v2/cloud/scripts/001-cardano-setup.sh)
