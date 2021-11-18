@@ -3,13 +3,12 @@ name: Init Cloud (GCP only)
 on:
   push:
     branches:
-      - terraforming
-      - terraforming-v0.6
+      - feature/tbot-v2
       - develop
 
 env:
-  PROJECT_ID: theta-inkwell-326216
-  GCLOUD_TF_BUCKET_NAME: darcano-terraform-state
+  PROJECT_ID: czechrepublic-332512
+  GCLOUD_TF_BUCKET_NAME: darlene-terraform-state
   GCLOUD_PROJECT_REGION: us-central1
   GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
   DARLENE1_TOKEN: ${{ secrets.DARLENE1_TOKEN }}

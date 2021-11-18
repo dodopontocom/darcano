@@ -36,7 +36,7 @@ export VRF_VKEY=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetad
 export HOME="/home/ubuntu"
 export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 
-CARDANO_NODE_TAG="1.31.0"
+CARDANO_NODE_TAG="1.32.0-rc1"
 GHC_VERSION="8.10.7"
 NODE_PORT=3000
 NODE_HOME="${HOME}/cardano-gcloud-node"
