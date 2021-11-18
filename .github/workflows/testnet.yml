@@ -107,6 +107,9 @@ jobs:
           terraform init --backend-config="bucket=${GCLOUD_TF_BUCKET_NAME}" --backend-config="prefix=tf-state"
           terraform plan
           terraform apply --auto-approve
+
+          message="CICD complete!"
+          curl -s -X POST https://api.telegram.org/bot${DARLENE1_TOKEN}/sendMessage -d chat_id=${TELEGRAM_ID} -d text="${message}"
           
     - name: Shutdown Dev Box
       if: "contains( env.commit_msg, '[terraform-destroy]')"
