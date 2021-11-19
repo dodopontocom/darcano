@@ -44,7 +44,7 @@ helper.metrics() {
 	metric=(\${arr[@]:1})
 
 	message=\$(curl 127.0.0.1:12798/metrics | grep -i \${metric} | awk '{ print \$2}')
-    ShellBot.sendMessage --chat_id \${message_chat_id[$id]} --text "\$(echo -e \${message})" --parse_mode markdown
+    ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "\$(echo -e \${message})" --parse_mode markdown
 }
 
 helper.get_api
@@ -61,7 +61,6 @@ do
 	for id in \$(ShellBot.ListUpdates)
 	do
 	(
-        if [[ ${message_entities_type[$id]} == bot_command ]]; then
             if [[ "\$(echo \${message_text[\$id]%%@*} | grep "^\/relay" )" ]]; then
                 helper.save_relay "\${message_text[\$id]}"
                 ShellBot.sendMessage --chat_id \${message_chat_id[\$id]} --text "done, bye" --parse_mode markdown
@@ -79,7 +78,6 @@ do
                 sleep 2
                 sudo systemctl stop darcano-bot
             fi
-        fi
 	) &
 	done
 done
