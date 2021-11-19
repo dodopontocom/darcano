@@ -22,6 +22,8 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 - [ ] Dockerization  
 - [ ] (terraform) Support AWS  
 - [ ] Make all scripts support switch to mainnet and vice-versa (depends on keys/certifications/addresses creation for mainnet)  
+- [ ] Hardening the servers
+- [ ] Improve swap memory configuration
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
