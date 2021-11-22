@@ -38,7 +38,7 @@ export BOOTSTRAP_HASKELL_NONINTERACTIVE=true
 
 CARDANO_NODE_TAG="1.32.0-rc1"
 GHC_VERSION="8.10.7"
-NODE_PORT=3000
+CABAL_VERSION="3.6.2.0"
 NODE_HOME="${HOME}/cardano-gcloud-node"
 
 mkdir ~/git
@@ -63,8 +63,8 @@ chmod +x ghcup.sh
 source $HOME/.ghcup/env
 
 ghcup upgrade
-ghcup install cabal 3.4.0.0
-ghcup set cabal 3.4.0.0
+ghcup install cabal ${CABAL_VERSION}
+ghcup set cabal ${CABAL_VERSION}
 ###
 
 ghcup install ghc ${GHC_VERSION}
