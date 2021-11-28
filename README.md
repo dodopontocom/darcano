@@ -17,13 +17,14 @@ It is an anagram for [Cardano](https://developers.cardano.org/)
 - [ ] Develop Self-update Cardano-node script  
 - [x] (Telegram) Develop commands to check metrics (prometheus)  
 - [ ] (Telegram) Develop commands to check basic servers info  
-- [ ] Improvements on handling message commits  
+- [ ] (Github) Improvements on handling message commits  
 - [ ] Implement cncli with useful commands on startup
 - [ ] Dockerization  
-- [ ] (terraform) Support AWS  
+- [ ] (Terraform) Support AWS  
 - [ ] Make all scripts support switch to mainnet and vice-versa (depends on keys/certifications/addresses creation for mainnet)  
 - [ ] Hardening the servers
 - [ ] Improve swap memory configuration
+- [ ] Use db snapshot during the setup (https://docs.armada-alliance.com/learn/intermediate-guide/pi-pool-tutorial/pi-node#4.-download-database-snapshot)
 
 ### Cardano Stake Pool on Testnet
 This repo will maintain scripts and miscellaneous regarding setting up a Stake Pool in Cardano TestNet.  
