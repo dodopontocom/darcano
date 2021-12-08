@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# runs on both BP&R
-
+# description: runs on both BP&R
 # --testnet-magic 1097911063
 
 ##############################################################################
