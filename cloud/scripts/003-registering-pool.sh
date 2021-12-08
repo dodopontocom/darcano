@@ -37,9 +37,9 @@ echo ${COLD_STAKE_VKEY} > ${NODE_HOME}/stake.vkey
 cardano-cli stake-pool registration-certificate \
     --cold-verification-key-file ${NODE_HOME}/node.vkey \
     --vrf-verification-key-file ${NODE_HOME}/vrf.vkey \
-    --pool-pledge 1000000 \
-    --pool-cost 350000000 \
-    --pool-margin 0 \
+    --pool-pledge 10000000000 \
+    --pool-cost 340000000 \
+    --pool-margin 0.025 \
     --pool-reward-account-verification-key-file ${NODE_HOME}/stake.vkey \
     --pool-owner-stake-verification-key-file ${NODE_HOME}/stake.vkey \
     --${nwmagic_arg} \

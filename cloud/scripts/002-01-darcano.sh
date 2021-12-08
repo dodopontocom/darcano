@@ -5,6 +5,10 @@
 DARCANO_TOKEN=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARCANO_TOKEN)
 TELEGRAM_ID=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/TELEGRAM_ID)
 
+node_curr_version="$(cardano-cli --version | awk '{print $2}' | head -1)"
+node_latest_version="$(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name)"
+if [[ "${node_curr_version}" != "${node_latest_version}" ]]; then echo dif; fi
+
 cat > /home/ubuntu/darcano.sh << EOF
 #!/usr/bin/env bash
 DARCANO_TOKEN=\$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/attributes/DARCANO_TOKEN)
