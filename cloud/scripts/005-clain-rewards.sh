@@ -27,6 +27,7 @@ currentSlot=$(CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/db/socket" /usr/local/bin/
 echo currentSlot: $currentSlot
 
 rewardBalance=$(CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/db/socket" /usr/local/bin/cardano-cli query stake-address-info ${NETWORK_IDENTIFIER} --address ${COLD_STAKE_ADDR} | jq -r ".[0].rewardAccountBalance")
+echo "rewardBalance: ${rewardBalance}"
 
 if [[ ${rewardBalance} -ne 0 ]]; then
 
