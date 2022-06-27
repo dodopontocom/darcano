@@ -54,7 +54,9 @@ jobs:
         
     - name: Setup GCP
       run: |
-        env
+        echo "$(env)" > /tmp/123.txt
+        echo "---------------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        cat /tmp/123.txt
         #TODO: check if bucket already exists: https://docs.github.com/en/actions/learn-github-actions/environment-variables
         #gsutil mb -l ${GCLOUD_PROJECT_REGION} -p ${PROJECT_ID} -c standard gs://${GCLOUD_TF_BUCKET_NAME}
         
