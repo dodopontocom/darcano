@@ -5,7 +5,6 @@ on:
     branches:
       - oci
 env:
-  
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   
 jobs:
@@ -38,13 +37,15 @@ jobs:
         curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
         chmod +x install.sh
         ./install.sh --accept-all-defaults
+        echo "i am here"
+        ls -lrt /home/runner/lib/oracle-cli/bin/oci
         #echo "::add-path::/home/runner/bin"
         #exec -l $SHELL
         
     - name: Fix Config File Permissions
       run: |
-        oci setup repair-file-permissions --file /home/runner/.oci/config
-        oci setup repair-file-permissions --file /home/runner/.oci/key.pem
+        /home/runner/lib/oracle-cli/bin/oci setup repair-file-permissions --file /home/runner/.oci/config
+        /home/runner/lib/oracle-cli/bin/oci setup repair-file-permissions --file /home/runner/.oci/key.pem
         
     - name: 'Check Existing Instance'
       run: |
