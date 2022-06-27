@@ -57,3 +57,21 @@ jobs:
           --query "data [0].id" \
           --raw-output \
         )"
+    
+    - name: 'Create Instance'
+      if: ${{!env.INSTANCE_OCID}}
+      run: |
+        echo "::set-env name=INSTANCE_OCID::$( \
+          oci compute instance launch \
+            --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
+            --availability-domain ${{secrets.VM_AVAILABILITY_DOMAIN}} \
+            --shape ${{secrets.VM_SHAPE}} \
+            --assign-public-ip true \
+            --display-name cicd-demo \
+            --image-id ${{secrets.VM_CUSTOM_IMAGE_OCID}} \
+            --ssh-authorized-keys-file /home/runner/.oci/id_vm.pub \
+            --subnet-id ${{secrets.VM_SUBNET_OCID}} \
+            --wait-for-state RUNNING \
+            --query "data.id" \
+            --raw-output \
+        )"
