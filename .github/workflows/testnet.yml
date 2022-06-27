@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - oci
-
+env:
+  
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  
 jobs:
   setup:
     name: Setup
@@ -35,8 +38,8 @@ jobs:
         curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
         chmod +x install.sh
         ./install.sh --accept-all-defaults
-        echo "::add-path::/home/runner/bin"
-        exec -l $SHELL
+        #echo "::add-path::/home/runner/bin"
+        #exec -l $SHELL
         
     - name: Fix Config File Permissions
       run: |
