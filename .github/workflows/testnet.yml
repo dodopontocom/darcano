@@ -29,3 +29,27 @@ jobs:
         echo "tenancy=${{secrets.OCI_TENANCY_OCID}}" >> ~/.oci/config
         echo "key_file=~/.oci/key.pem" >> ~/.oci/config
         echo "${{secrets.OCI_KEY_FILE}}" >> ~/.oci/key.pem
+        
+    - name: Install OCI CLI
+      run: |
+        curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
+        chmod +x install.sh
+        ./install.sh --accept-all-defaults
+        echo "::add-path::/home/runner/bin"
+        exec -l $SHELL
+        
+    - name: Fix Config File Permissions
+      run: |
+        oci setup repair-file-permissions --file /home/runner/.oci/config
+        oci setup repair-file-permissions --file /home/runner/.oci/key.pem
+        
+    - name: 'Check Existing Instance'
+      run: |
+        echo "::set-env name=INSTANCE_OCID::$( \
+          oci compute instance list \
+          --lifecycle-state RUNNING \
+          --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
+          --display-name cicd-demo \
+          --query "data [0].id" \
+          --raw-output \
+        )"
