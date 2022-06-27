@@ -50,7 +50,7 @@ jobs:
     - name: 'Check Existing Instance'
       run: |
         echo "::set-env name=INSTANCE_OCID::$( \
-          oci compute instance list \
+          /home/runner/lib/oracle-cli/bin/oci compute instance list \
           --lifecycle-state RUNNING \
           --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
           --display-name cicd-demo \
@@ -62,7 +62,7 @@ jobs:
       if: ${{!env.INSTANCE_OCID}}
       run: |
         echo "::set-env name=INSTANCE_OCID::$( \
-          oci compute instance launch \
+          /home/runner/lib/oracle-cli/bin/oci compute instance launch \
             --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
             --availability-domain ${{secrets.VM_AVAILABILITY_DOMAIN}} \
             --shape ${{secrets.VM_SHAPE}} \
