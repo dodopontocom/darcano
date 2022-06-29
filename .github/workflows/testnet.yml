@@ -8,8 +8,8 @@ on:
       - develop
 
 env:
-  PROJECT_ID: theta-inkwell-326216
-  GCLOUD_TF_BUCKET_NAME: darcano-terraform-state
+  PROJECT_ID:	myproject2022-354818
+  GCLOUD_TF_BUCKET_NAME: to_exclude_soon
   GCLOUD_PROJECT_REGION: us-central1
   GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
   DARLENE1_TOKEN: ${{ secrets.DARLENE1_TOKEN }}
