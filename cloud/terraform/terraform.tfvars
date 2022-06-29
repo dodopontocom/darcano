@@ -1,6 +1,5 @@
 key = "../credentials/credential.json"
-project_id = "theta-inkwell-326216"
+project_id = "myproject2022-354818"
 region = "us-central1"
 zone = "us-central1-a"
-startup_script = "../scripts/startup-script.sh"
 machine_type = "e2-micro"
