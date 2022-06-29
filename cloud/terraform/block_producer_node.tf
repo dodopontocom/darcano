@@ -11,8 +11,6 @@ resource "google_compute_instance" "bp_node" {
   boot_disk {
     source      = google_compute_disk.bp_node_disk.name
   }
-
-  metadata_startup_script = "${file("${var.startup_script}")}"
   
   metadata = {
     DARLENE1_TOKEN = "${var.DARLENE1_TOKEN}"
