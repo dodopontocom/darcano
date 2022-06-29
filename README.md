@@ -69,3 +69,4 @@ addr1q8nsyv5g7engrm20rc28rxnvfae07lt3awentfhkpddnnle2t4kf2u8vntttsq2xj9vs8qms6sq
 ![image](ada_my_address.png)
 
 ;)
+;) ;P
