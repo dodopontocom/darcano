@@ -1,3 +1,5 @@
+ref: https://oci4.com/how-to-set-up-a-cardano-node-on-oci-c8ed4bea1270
+
 Github Actions - develop | [![](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml/badge.svg?branch=terraforming)](https://github.com/dodopontocom/darcano/actions/workflows/testnet.yml) |
 --- | --- |
 
